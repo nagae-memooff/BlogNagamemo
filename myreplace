@@ -1,0 +1,9 @@
+#!/bin/bash
+from='心情'
+to='个人简介'
+for file in `find ./app`
+do
+	if [ -f $file ];then
+		sed -i "s/$from/$to/g" $file
+	fi
+done

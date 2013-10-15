@@ -4,7 +4,7 @@ gem 'rails', '4.0.0'
 
 #environment
 group :production do
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 group :test do
@@ -13,7 +13,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'mysql'
+  gem 'mysql2'
   gem 'rspec-rails', '2.13.1'
 end
 

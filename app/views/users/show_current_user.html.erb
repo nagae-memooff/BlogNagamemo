@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>用户名:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>个人简介:</strong>
+  <%= @user.mood %>
+</p>
+<p>
+	<strong>主题数</strong>
+	<%= current_user.posts.count %>
+</p>
+<p>
+	<strong>回复数</strong>
+	<%= current_user.comments.count %>
+</p>
+
+<%= link_to '编辑我的资料', '/edit_me' %> |
+<%= link_to '回到主页', root_path %>

@@ -14,3 +14,13 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+function clearDefaultContent(textarea){
+	if (textarea.innerHTML == "来写个随笔吧" ) {
+		textarea.innerHTML = "";
+	}
+}
+function toDefaultContent(textarea){
+	if (textarea.innerHTML == "" ) {
+		textarea.innerHTML = "来写个随笔吧";
+	}
+}

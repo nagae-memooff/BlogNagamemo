@@ -13,7 +13,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'sqlite3', '1.3.8'
+  gem 'mysql'
   gem 'rspec-rails', '2.13.1'
 end
 

@@ -11,3 +11,10 @@
  *= require_self
  *= require_tree .
  */
+#container {
+	margin-top:50px;
+}
+#quick_new {
+	width:100%;
+	height:80px;
+}

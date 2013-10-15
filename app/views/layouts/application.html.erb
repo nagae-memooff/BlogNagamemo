@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>BlogNagamemo</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+	<head>
+		<title>BlogNagamemo</title>
+		<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container">
+					<ul class="nav pull-left">
+						<li>
+						<%= link_to "Nagae memooff的博客", root_path , id: "logo" %>
+						</li>
+					</ul>
+					<ul class="nav pull-right">
+						<li><%= link_to "关于我们",  about_path  %></li>
+						<% if signed_in? %>
+							<li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
+							<li><%= link_to current_user.name,  '/show_me'  %></li>
+						<% else %>
+							<li><%= link_to "登录", sign_in_path %></li>
+							<li><%= link_to "注册用户", sign_up_path %></li>
+						<% end %>
+					</ul>
+				</div>
+			</div>
+		</div>	
+		<div id="container" class="container">
+			<% if signed_in? %>
+				<div class="quick-post">
+					<form action="/quick_new_post" method="post">
+						<%= tag(:input, type: "hidden",
+										name: request_forgery_protection_token.to_s,
+										value: form_authenticity_token) %>   
+						<textarea name="content" id="quick_new" onfocus="clearDefaultContent(this)" onblur="toDefaultContent(this)" ></textarea>
+						<input type="submit" value="发送" class="btn btn-primary pull-right"  />
+					</form>
+				</div>
+			<% end %>
+			<%= yield %>
+		</div>
+		<%= debug(params) if Rails.env.development? %>
+	</body>
 </html>
