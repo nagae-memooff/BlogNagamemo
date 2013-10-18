@@ -14,6 +14,15 @@
   <strong>个人简介:</strong>
   <%= @user.mood %>
 </p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<p>
+	<strong>主题数</strong>
+	<%= @user.posts.count %>
+</p>
+<p>
+	<strong>回复数</strong>
+	<%= @user.comments.count %>
+</p>
+<% if is_me?(@user) %>
+<%= link_to '编辑个人资料', edit_user_path(@user) %> |
+<% end %>
+<%= link_to_function "返回", "history.go(-1)" %>

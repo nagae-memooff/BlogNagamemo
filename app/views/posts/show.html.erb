@@ -1,19 +1,42 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @post.user_id %>
-</p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
+<h2><%= @post.title %></h2>
 
-<p>
-  <strong>Content:</strong>
-  <%= @post.content %>
-</p>
+<%= link_to @post.user.name ,@post.user %> 发表于 <%= @post.created_at %>
+<hr />
+<div class="content">
+	<pre>
+	<%= @post.content %>
+	</pre>
+</div>
+<% if is_mine?(@post) %>
+	<%= link_to '编辑', edit_post_path(@post) %> |
+<% end %>
 
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<div>
+	<h3>评论列表</h3>
+	<%= ( count = @post.comments.count ) == 0 ? "还没有人评论。" : "共有"+count.to_s+"条评论"  %>
+	<br />
+	<% cmtcount = 0 %>
+	<% @post.comments.each do |comment| %>
+		<%= cmtcount += 1 %>楼
+		<%=comment.user.name%> &nbsp;&nbsp; 发表于：<%= comment.created_at %>
+ <pre> <%= comment.content %></pre>
+		<a target="_self" onclick="repo('<%= cmtcount %>','<%= comment.user.name %>')" style="cursor:pointer;">回帖</a>
+		<%= link_to '删除评论', comment, method: :delete, data: { confirm: '确定删除本条评论吗？' } if is_mine?(comment) %>
+		<hr />
+	<% end %>
+</div>
+
+<% if signed_in? %>
+	<a name="comment">
+	<%= form_for(Comment.new) do |c| %>
+		<%= c.hidden_field :user_id , value: current_user.id %>
+		<%= c.hidden_field :post_id , value: @post.id %>
+		<%= c.text_area :content , style: 'width:100%' %>
+		<%= c.submit '提交评论',   class: 'btn btn-primary' %>
+		<input type="button" onclick="clearRepoArea()" value="清空输入框" class="btn" />
+	<% end %>
+<% end %>
+<%= link_to_function "返回", "history.go(-1)" %>

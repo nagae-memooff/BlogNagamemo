@@ -14,13 +14,33 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-function clearDefaultContent(textarea){
-	if (textarea.innerHTML == "来写个随笔吧" ) {
-		textarea.innerHTML = "";
+
+function clearDefaultContent(){
+	var qknew = document.getElementById('quick_new');
+	if (qknew.value == "来写个随笔吧" ) {
+		qknew.value = "";
 	}
 }
-function toDefaultContent(textarea){
-	if (textarea.innerHTML == "" ) {
-		textarea.innerHTML = "来写个随笔吧";
+function toDefaultContent(){
+	var qknew = document.getElementById('quick_new');
+	if (qknew.value == "" ) {
+		qknew.value = "来写个随笔吧";
 	}
 }
+function clearContent(){
+	var qknew = document.getElementById('quick_new');
+	qknew.value = "来写个随笔吧";
+}
+
+function repo(cmtcount,cmtuser){
+	var repoarea = document.getElementById('comment_content');
+	text = "回复 " + cmtuser + " 在 " + cmtcount + " 楼的评论：\n";
+	repoarea.value = text;
+	repoarea.focus();
+}
+
+function clearRepoArea(){
+	var repo = document.getElementById("comment_content");
+	repo.value = "";
+}
+
