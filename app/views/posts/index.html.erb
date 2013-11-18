@@ -6,7 +6,7 @@
 		</span>
 	<br />
 	<div class="content">
-		<pre><%= post.content %></pre>
+		<%=h simple_format post.content.truncate 200%>
 	</div>
 	<br />
 	<% cmt = post.comments.count %>
