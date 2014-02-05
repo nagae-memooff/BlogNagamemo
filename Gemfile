@@ -3,9 +3,7 @@ source 'http://ruby.taobao.org'
 gem 'rails', '4.0.0'
 
 #environment
-group :production do
-  gem 'mysql2'
-end
+gem 'mysql2'
 
 group :test do
   gem 'selenium-webdriver', '2.35.1'
@@ -13,7 +11,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'mysql2'
   gem 'rspec-rails', '2.13.1'
 end
 

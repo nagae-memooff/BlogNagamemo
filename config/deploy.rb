@@ -55,10 +55,7 @@ set :deploy_to, "/home/nagae-memooff/rails/blog_nagamemo"             # 服务�
 #   end
 # end
 
-# 自定义任务
-namespace :deploy do 
- 
-end 
+
 
 # 自定义nginx相关命令
 namespace :nginx do
@@ -71,13 +68,13 @@ namespace :nginx do
   # 启动nginx
   desc "start nginx" 
   task :start do 
-    run "/home/nagae-memooff/opt/nginx/sbin/nginx"
+    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx"
   end 
 
   # 重启nginx
   desc "restart nginx"
   task :restart do 
-    run "/home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
   end 
 
   # 杀死nginx
@@ -109,7 +106,6 @@ end
 
 # 在更新代码之后，执行bundle install
 after "deploy:update_code",:bundle_install , :restart_nginx
-after "deploy:create_symlink"
 
 desc "install the necessary preprequisites"
 task :bundle_install do 
@@ -118,7 +114,7 @@ end
 
 desc "restart nginx"
 task :restart_nginx do 
-   run "/home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+   run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
 end 
 
 
