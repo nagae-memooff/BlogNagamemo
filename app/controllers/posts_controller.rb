@@ -15,18 +15,22 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    if signed_in?
+      @post = Post.new 
+    else
+      redirect_to sign_in_path
+    end
   end
 
   # GET /posts/1/edit
   def edit
   end
 
-	def quick_new
-		@post = Post.new(title: MDT.date+'随笔' , content: params[:content] , user_id: current_user.id )
-		@post.save
-		render 'show'
-	end
+  def quick_new
+    @post = Post.new(title: MDT.date+'随笔' , content: params[:content] , user_id: current_user.id )
+    @post.save
+    render 'show'
+  end
 
   # POST /posts
   # POST /posts.json
@@ -69,13 +73,13 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:user_id, :title, :content)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def post_params
+    params.require(:post).permit(:user_id, :title, :content)
+  end
 end

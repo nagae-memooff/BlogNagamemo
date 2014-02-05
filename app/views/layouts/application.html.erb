@@ -32,9 +32,7 @@
 			<% if signed_in? %>
 				<div class="quick-post">
 					<form action="/quick_new_post" method="post">
-						<%= tag(:input, type: "hidden",
-										name: request_forgery_protection_token.to_s,
-										value: form_authenticity_token) %>   
+						<%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
 						<textarea name="content" id="quick_new" onfocus="clearDefaultContent()" onblur="toDefaultContent()" >来写个随笔吧</textarea>
 						<input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
 						<input type="submit" value="发送" class="btn btn-primary pull-right"  />

@@ -1,25 +1,29 @@
-<% @posts.each do |post| %>
-	<div class="post-overview-item">
-		<h1><%= link_to post.title, post %></h1>
-		<span class="pull-right">
-			<%= link_to post.user.name , post.user %> 发表于：<%= post.created_at %>
-		</span>
-	<br />
-	<div class="content">
-		<%=h simple_format post.content.truncate 200%>
-	</div>
-	<br />
-	<% cmt = post.comments.count %>
-	<span class="pull-right">
-		<%= cmt.to_s+"条评论" if cmt >0 %>
-	</span>
-	<%= link_to '全文', post %>
-	<% if is_mine?(post) %>
-		<%= link_to '修改', edit_post_path(post) %>
-		<%= link_to '删除', post, method: :delete, data: { confirm: '确定要删除吗？' } %>
-	<% end %>
-	<hr />
-	</div>
+<% if @posts.count != 0 %>
+  <% @posts.each do |post| %>
+    <div class="post-overview-item">
+      <h1><%= link_to post.title, post %></h1>
+      <span class="pull-right">
+        <%= link_to post.user.name , post.user %> 发表于：<%= post.created_at %>
+      </span>
+      <br />
+      <div class="content">
+        <%=h simple_format post.content.truncate 200%>
+      </div>
+      <br />
+      <% cmt = post.comments.count %>
+      <span class="pull-right">
+        <%= cmt.to_s+"条评论" if cmt >0 %>
+      </span>
+      <%= link_to '全文', post %>
+      <% if is_mine?(post) %>
+        <%= link_to '修改', edit_post_path(post) %>
+        <%= link_to '删除', post, method: :delete, data: { confirm: '确定要删除吗？' } %>
+      <% end %>
+      <hr />
+    </div>
+  <% end %>
+<% else %>
+  还没有博客，有时间的话来写一篇吧^_^
 <% end %>
 
 <%= button_to '写新博客', new_post_path , method:'get' , class:"btn btn-primary" %>
