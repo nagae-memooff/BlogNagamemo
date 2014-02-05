@@ -49,7 +49,13 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :deploy do
+  gem 'capistrano', '~> 2.15.5'
+  gem 'capistrano_colors'
+  gem 'rvm-capistrano'
+end
 
+gem 'pry-rails'
 # Use ActiveModel has_secure_password
 
 # Use unicorn as the app server
