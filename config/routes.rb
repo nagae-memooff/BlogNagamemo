@@ -25,13 +25,15 @@ BlogNagamemo::Application.routes.draw do
 
 	# You can have the root of your site routed with "root"
 	root 'posts#index'
-	match 'about' ,to: 'static_page#about' , via: 'get'
-	match 'sign_up' , to:'users#new' , via: 'get'
-	match 'edit_me' , to:'users#edit_current_user' , via: 'get'
-	match 'show_me' , to:'users#show_current_user' , via: 'get'
-	match 'sign_in' , to:'sessions#new' , via: 'get'
-	match 'sign_out' , to:'sessions#destroy' , via: 'delete'
-	match 'quick_new_post' ,to:'posts#quick_new' ,via: 'post'
+	match 'about', to: 'static_page#about', via: 'get'
+	match 'sign_up', to: 'users#new', via: 'get'
+	match 'edit_me', to: 'users#edit_current_user', via: 'get'
+	match 'show_me', to: 'users#show_current_user', via: 'get'
+	match 'sign_in', to: 'sessions#new', via: 'get'
+	match 'sign_out', to: 'sessions#destroy', via: 'delete'
+	match 'quick_new_post' ,to:'posts#quick_new', via: 'post'
+  match 'search', to: 'posts#search', via: 'get'
+  
 
 
 

@@ -32,6 +32,22 @@ class PostsController < ApplicationController
     render 'show'
   end
 
+  def search
+    @keywords = params[:search_keywords].split
+    @posts = []
+
+    @keywords.each do |keyword|
+      @posts |= Post.where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%")
+    end
+
+    @msg = if @posts.count == 0
+             "没有符合条件的日志！"
+           else
+             "找到#{@posts.count}条记录"
+           end
+
+    render 'index'
+  end
   # POST /posts
   # POST /posts.json
   def create

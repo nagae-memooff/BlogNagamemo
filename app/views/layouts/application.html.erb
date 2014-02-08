@@ -13,9 +13,13 @@
 					<ul class="nav pull-left">
 						<li>
 						<%= link_to "Nagae memooff的博客", root_path , id: "logo" %>
-						</li>
+            </li>
+            <li>
+            <input type="text" id="search_keywords" name="search_keywords" onkeydown="searchByKeywords(event);" onfocus="clearSearchKeywords();" onblur="resetDefaultSearchKeywords();" value="搜索"></input>
+            </li>
 					</ul>
-					<ul class="nav pull-right">
+          <ul class="nav pull-right">
+            
 						<li><%= link_to "关于我们",  about_path  %></li>
 						<% if signed_in? %>
 							<li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
@@ -28,17 +32,18 @@
 				</div>
 			</div>
 		</div>	
+    <% if signed_in? %>
+      <div id="quick-new" onmouseover="quickNewPostDivSlideDown();" onmouseleave="quickNewPostDivSlideUp();">
+        <form action="/quick_new_post" method="post">
+          <%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
+          <textarea name="content" onfocus="clearDefaultContent()" onblur="toDefaultContent()" >来写个随笔吧</textarea>
+          快速写随笔
+          <input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
+          <input type="submit" value="发送" class="btn btn-primary pull-right"  />
+        </form>
+      </div>
+    <% end %>
 		<div id="container" class="container">
-			<% if signed_in? %>
-				<div class="quick-post">
-					<form action="/quick_new_post" method="post">
-						<%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
-						<textarea name="content" id="quick_new" onfocus="clearDefaultContent()" onblur="toDefaultContent()" >来写个随笔吧</textarea>
-						<input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
-						<input type="submit" value="发送" class="btn btn-primary pull-right"  />
-					</form>
-				</div>
-			<% end %>
 			<%= yield %>
 		</div>
 		<%= debug(params) if Rails.env.development? %>

@@ -44,3 +44,32 @@ function clearRepoArea(){
 	repo.value = "";
 }
 
+function clearSearchKeywords(){
+	var qknew = document.getElementById('search_keywords');
+	if (qknew.value == "搜索" ) {
+		qknew.value = "";
+	}
+}
+
+function resetDefaultSearchKeywords(){
+	var qknew = document.getElementById('search_keywords');
+	if (qknew.value == "" ) {
+		qknew.value = "搜索";
+	}
+}
+
+function searchByKeywords(evt){
+  var evt = evt ? evt : (window.event ? window.event :null);//兼容IE和FF
+  if (evt.keyCode==13){
+    var keywords = document.getElementById('search_keywords').value;
+    window.location.href='/search?search_keywords=' + keywords;
+  }
+}
+
+function quickNewPostDivSlideUp() {
+  $("#quick-new").animate({top: '-80px'}, {queue: false, duration: "fast"});
+}
+
+function quickNewPostDivSlideDown() {
+  $("#quick-new").animate({top: '40px'}, {queue: false, duration: "fast"});
+}

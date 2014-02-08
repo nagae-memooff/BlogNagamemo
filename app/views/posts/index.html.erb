@@ -1,3 +1,4 @@
+<%= @keywords.each { |keyword| keyword } if !@keywords.nil? && Rails.env.development? %>
 <% if @posts.count != 0 %>
   <% @posts.each do |post| %>
     <div class="post-overview-item">
@@ -23,7 +24,7 @@
     </div>
   <% end %>
 <% else %>
-  还没有博客，有时间的话来写一篇吧^_^
+  <%= @msg || "还没有博客，有时间的话来写一篇吧^_^"  %>
 <% end %>
 
 <%= button_to '写新博客', new_post_path , method:'get' , class:"btn btn-primary" %>
