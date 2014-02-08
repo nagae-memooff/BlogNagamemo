@@ -89,13 +89,13 @@ namespace :db do
   # create数据库
   desc "rake db:create"
   task :create do
-    run "cd #{current_path} && rake db:create"
+    run "cd #{current_path} && rake db:create RAILS_ENV=production"
   end
 
   # migrate database
   desc "migrate database"
   task :migrate do
-    run "cd #{current_path} && rake db:migrate"
+    run "cd #{current_path} && rake db:migrate RAILS_ENV=production"
   end
 
   desc "reload the database with seed data"
@@ -105,7 +105,12 @@ namespace :db do
 end
 
 # 在更新代码之后，执行bundle install
-after "deploy:update_code",:bundle_install , :restart_nginx
+after "deploy:update_code",:bundle_install, :complie_asset, :restart_nginx
+
+desc "complie asset files"
+task :complie_asset do
+  run "cd #{release_path} && rake assets:precompile RAILS_ENV=production"
+end
 
 desc "install the necessary preprequisites"
 task :bundle_install do 
