@@ -15,14 +15,14 @@
 		<%= f.hidden_field :user_id , value: current_user.id %>
 	</div>
 	<div class="field">
-		<%= f.label :title %><br>
+		<%= f.label :title, '标题' %><br>
 		<%= f.text_field :title %>
 	</div>
 	<div class="field">
-		<%= f.label :content %><br>
+		<%= f.label :content, '正文' %><br>
 		<%= f.text_area :content %>
 	</div>
 	<div class="actions">
-		<%= f.submit   class: 'btn btn-primary' %>
+		<%= f.submit '发帖', class: 'btn btn-primary' %>
 	</div>
 <% end %>

@@ -105,16 +105,23 @@ namespace :db do
 end
 
 # 在更新代码之后，执行bundle install
-after "deploy:update_code",:bundle_install, :complie_asset, :restart_nginx
+after "deploy:update_code", :create_portrait_symlink, :complie_asset, :restart_nginx
+
+after "deploy:create_symlink", :bundle_install
 
 desc "complie asset files"
 task :complie_asset do
   run "cd #{release_path} && rake assets:precompile RAILS_ENV=production"
 end
 
+desc "create portrait symbol link"
+task :create_portrait_symlink do
+  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/portraits public/portraits"
+end
+
 desc "install the necessary preprequisites"
-task :bundle_install do 
-  run "cd #{release_path} &&  bundle install"
+task :bundle_install do
+  run "cd #{current_path} &&  bundle install"
 end 
 
 desc "restart nginx"

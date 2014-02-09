@@ -27,5 +27,5 @@
 <% else %>
   <%= @msg || "还没有博客，有时间的话来写一篇吧^_^"  %>
 <% end %>
-
+<%= will_paginate(@posts, previous_label: '上一页',next_label: '下一页',:separator=>" | ") if @keywords.nil? %>
 <%= button_to '写新博客', new_post_path , method:'get' , class:"btn btn-primary" %>

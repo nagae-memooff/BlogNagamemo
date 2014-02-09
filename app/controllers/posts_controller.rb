@@ -5,12 +5,15 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.includes(:user).paginate(page: params[:page], per_page: 5)
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @page = params[:page] || 1
+    @per_page = 10
+    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @per_page)
   end
 
   # GET /posts/new
@@ -37,7 +40,7 @@ class PostsController < ApplicationController
     @posts = []
 
     @keywords.each do |keyword|
-      @posts |= Post.where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%")
+      @posts |= Post.includes(:user).where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%")
     end
 
     @msg = if @posts.count == 0
@@ -91,7 +94,7 @@ class PostsController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.includes(:user).find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
