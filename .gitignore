@@ -20,5 +20,4 @@ doc/
 .secret
 gitlogfile.txt
 myreplace
-app/assets/images/portraits/*.png
-!app/assets/images/portraits/default_portrait.png
+app/assets/images/portraits
