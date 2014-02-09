@@ -8,9 +8,9 @@ module ApplicationHelper
                       end
     elsif Rails.env == 'production'
       portrait_path = if File.exist? "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{user.id}.png"
-                        "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{user.id}.png"
+                        "/portraits/#{user.id}.png"
                       else
-                        "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/default_portrait.png"
+                        "/portraits/default_portrait.png"
                       end
     end
     name = user.name
