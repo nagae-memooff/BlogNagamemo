@@ -2,7 +2,7 @@ source 'http://ruby.taobao.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-#environment
+gem 'rmagick'
 gem 'mysql2'
 
 group :test do

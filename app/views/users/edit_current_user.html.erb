@@ -1,4 +1,12 @@
 <h1>编辑用户资料</h1>
+
+<%= raw set_portrait @user, 'l'%>
+<%= form_tag '/set_portrait' , multipart: true do %>
+  <%= label_tag :portrait_file, '选择要上传的头像' %>
+  <%= file_field_tag :portrait_file %></p>
+  <%= submit_tag "上传" %>
+<% end %>
+
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -12,23 +20,23 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.label :email , :email地址 %><br>
+    <%= f.label :email , :email地址 %>
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :name , :昵称 %><br>
+    <%= f.label :name , :昵称 %>
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :password ,:新密码 %><br>
+    <%= f.label :password ,:新密码 %>
     <%= f.password_field :password %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation ,:确认新密码 %><br>
+    <%= f.label :password_confirmation ,:确认新密码 %>
     <%= f.password_field :password_confirmation %>
   </div>
   <div class="field">
-    <%= f.label :mood, :个人简介 %><br>
+    <%= f.label :mood, :个人简介 %>
     <%= f.text_field :mood %>
   </div>
   <div class="actions">

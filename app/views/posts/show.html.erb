@@ -3,6 +3,7 @@
 
 <h2><%= @post.title %></h2>
 
+<%= raw set_portrait @post.user, 's'%>
 <%= link_to @post.user.name ,@post.user %> 发表于 <%= @post.created_at %>
 <hr />
 <div class="content">
@@ -11,19 +12,24 @@
 <% if is_mine?(@post) %>
   <%= link_to '编辑', edit_post_path(@post) %> |
 <% end %>
-
+<hr />
 <div>
   <h3>评论列表</h3>
   <%= ( count = @post.comments.count ) == 0 ? "还没有人评论。" : "共有"+count.to_s+"条评论"  %>
   <br />
   <% cmtcount = 0 %>
   <% @post.comments.each do |comment| %>
-    <%= cmtcount += 1 %>楼
-    <%=comment.user.name%> &nbsp;&nbsp; 发表于：<%= comment.created_at %>
-    <%= simple_format comment.content %>
-    <a target="_self" onclick="repo('<%= cmtcount %>','<%= comment.user.name %>')" style="cursor:pointer;">回帖</a>
-    <%= link_to '删除评论', comment, method: :delete, data: { confirm: '确定删除本条评论吗？' } if is_mine?(comment) %>
-    <hr />
+    <div class="pull-left comment-portrait">
+      <%= raw set_portrait comment.user %>
+    </div>
+    <div class="comment-content pull-left">
+      <%= cmtcount += 1 %>楼
+      <%= link_to comment.user.name, comment.user %> &nbsp;&nbsp; 发表于：<%= comment.created_at %>
+      <%= simple_format comment.content %>
+      <a target="_self" onclick="repo('<%= cmtcount %>','<%= comment.user.name %>')" style="cursor:pointer;">回帖</a>
+      <%= link_to '删除评论', comment, method: :delete, data: { confirm: '确定删除本条评论吗？' } if is_mine?(comment) %>
+      <hr />
+    </div>
   <% end %>
 </div>
 

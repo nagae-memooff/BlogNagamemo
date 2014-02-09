@@ -1,3 +1,4 @@
+#encoding=utf-8
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -69,6 +70,31 @@ class UsersController < ApplicationController
     end
   end
 
+	def set_portrait_img
+		#TODO:1、如果上传非图片文件，或者非png格式怎么处理
+		upload_pic_io = params[:portrait_file]
+		result = {}
+    
+		begin
+			user_id = current_user.id
+			tmp_file_path = "/dev/shm/temp_portrait_#{user_id}_#{rand(0xffffff)}"
+			file_path= "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
+			save_resize_picture(upload_pic_io, tmp_file_path, file_path)
+			result[:status] = 'OK'
+			result[:msg] = "成功上传头像"
+#     rescue Exception
+    rescue ActiveRecord::RecordNotFound
+			result[:status] = 'ERR'
+			result[:msg] = "上传头像失败"
+		end
+
+		respond_to do |format|
+			format.html { redirect_to '/edit_me', notice: result[:msg]  }
+			format.json { render :json => result.as_json }
+		end
+	end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -79,4 +105,23 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :mood)
     end
+
+
+	def save_resize_picture(uploaded_io, tmp_file_path, file_path)
+		require 'RMagick'
+		File.open( tmp_file_path, 'wb') do |file|
+			file.write(uploaded_io.read)
+		end
+		img_orig = Magick::Image.read(tmp_file_path).first
+		w,h = img_orig.columns,img_orig.rows
+		if w > h 
+			shaved_off = (w-h).round 
+			img = img_orig.crop(Magick::CenterGravity, w-shaved_off, h)
+		else 
+			shaved_off = (h-w).round 
+			img = img_orig.crop(Magick::CenterGravity, w, h-shaved_off)
+		end
+		img.resize(160,160).write file_path
+		File.delete(tmp_file_path) if File.exist?(tmp_file_path)
+	end
 end

@@ -1,11 +1,12 @@
-<%= @keywords.each { |keyword| keyword } if !@keywords.nil? && Rails.env.development? %>
+<%= print_keywords @keywords, @posts.count unless @keywords.nil? %>
 <% if @posts.count != 0 %>
   <% @posts.each do |post| %>
     <div class="post-overview-item">
-      <h1><%= link_to post.title, post %></h1>
-      <span class="pull-right">
-        <%= link_to post.user.name , post.user %> 发表于：<%= post.created_at %>
-      </span>
+      <h2><%= link_to post.title, post %></h2>
+      <div>
+      <%= raw set_portrait post.user, 's'%>
+      <span class="test"> <%= link_to post.user.name , post.user %> 发表于：<%= post.created_at %> </span>
+      </div>
       <br />
       <div class="content">
         <%=h simple_format post.content.truncate 200%>

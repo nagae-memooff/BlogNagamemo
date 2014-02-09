@@ -15,21 +15,9 @@
 //= require turbolinks
 //= require_tree .
 
-function clearDefaultContent(){
-	var qknew = document.getElementById('quick_new');
-	if (qknew.value == "来写个随笔吧" ) {
-		qknew.value = "";
-	}
-}
-function toDefaultContent(){
-	var qknew = document.getElementById('quick_new');
-	if (qknew.value == "" ) {
-		qknew.value = "来写个随笔吧";
-	}
-}
 function clearContent(){
-	var qknew = document.getElementById('quick_new');
-	qknew.value = "来写个随笔吧";
+  var qknew = document.getElementById('quickbox');
+  qknew.value = "";
 }
 
 function repo(cmtcount,cmtuser){
@@ -44,26 +32,17 @@ function clearRepoArea(){
 	repo.value = "";
 }
 
-function clearSearchKeywords(){
-	var qknew = document.getElementById('search_keywords');
-	if (qknew.value == "搜索" ) {
-		qknew.value = "";
-	}
-}
+//function searchByKeywords(evt){
+//  var evt = evt ? evt : (window.event ? window.event :null);//兼容IE和FF
+//  if (evt.keyCode==13){
+//    var keywords = document.getElementById('search_keywords').value;
+//    window.location.href='/search?search_keywords=' + keywords;
+//  }
+//}
 
-function resetDefaultSearchKeywords(){
-	var qknew = document.getElementById('search_keywords');
-	if (qknew.value == "" ) {
-		qknew.value = "搜索";
-	}
-}
-
-function searchByKeywords(evt){
-  var evt = evt ? evt : (window.event ? window.event :null);//兼容IE和FF
-  if (evt.keyCode==13){
-    var keywords = document.getElementById('search_keywords').value;
-    window.location.href='/search?search_keywords=' + keywords;
-  }
+function searchByKeywords(){
+  var keywords = document.getElementById('search_keywords').value;
+  window.location.href='/search?search_keywords=' + keywords;
 }
 
 function quickNewPostDivSlideUp() {

@@ -11,24 +11,31 @@
 			<div class="navbar-inner">
 				<div class="container">
 					<ul class="nav pull-left">
+            <li>
+            <%=  image_tag 'icon.jpg', id: 'icon' %>
+            </li>
 						<li>
 						<%= link_to "Nagae memooff的博客", root_path , id: "logo" %>
             </li>
-            <li>
-            <input type="text" id="search_keywords" name="search_keywords" onkeydown="searchByKeywords(event);" onfocus="clearSearchKeywords();" onblur="resetDefaultSearchKeywords();" value="搜索"></input>
-            </li>
 					</ul>
           <ul class="nav pull-right">
-            
 						<li><%= link_to "关于我们",  about_path  %></li>
 						<% if signed_in? %>
 							<li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
 							<li><%= link_to current_user.name,  '/show_me'  %></li>
+              <li><%= raw set_portrait current_user %></li>
 						<% else %>
 							<li><%= link_to "登录", sign_in_path %></li>
 							<li><%= link_to "注册用户", sign_up_path %></li>
 						<% end %>
 					</ul>
+          <form class="form-search">
+            <div class="input-append pull-right" id="searchbox">
+              <input type="text" id="search_keywords" class="span2 search-query" name="search_keywords"
+              placeholder="输入搜索关键词"></input>
+              <input type="button" value="搜索" class="btn" onclick="searchByKeywords();" />
+            </div>
+          </form>
 				</div>
 			</div>
 		</div>	
@@ -36,8 +43,8 @@
       <div id="quick-new" onmouseover="quickNewPostDivSlideDown();" onmouseleave="quickNewPostDivSlideUp();">
         <form action="/quick_new_post" method="post">
           <%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
-          <textarea name="content" onfocus="clearDefaultContent()" onblur="toDefaultContent()" >来写个随笔吧</textarea>
-          快速写随笔
+          <textarea id="quickbox" name="content" placeholder="来写个随笔吧"></textarea>
+          <span>快速写随笔</span>
           <input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
           <input type="submit" value="发送" class="btn btn-primary pull-right"  />
         </form>
