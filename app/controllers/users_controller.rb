@@ -81,7 +81,7 @@ class UsersController < ApplicationController
       file_path = if Rails.env == 'development'
                     "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
                   else
-                    "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{user.id}.png"
+                    "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{user_id}.png"
                   end
 			save_resize_picture(upload_pic_io, tmp_file_path, file_path)
 			result[:status] = 'OK'
