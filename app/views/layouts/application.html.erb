@@ -5,6 +5,7 @@
     <meta property="wb:webmaster" content="2b2c385ef9d51864" />
 		<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
 		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "wb", "data-turbolinks-track" => true %>
 		<%= csrf_meta_tags %>
 	</head>
 	<body>
@@ -55,6 +56,5 @@
 			<%= yield %>
 		</div>
 		<%= debug(params) if Rails.env.development? %>
-    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>
