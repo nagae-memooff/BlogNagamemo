@@ -30,8 +30,13 @@ class PostsController < ApplicationController
   end
 
   def quick_new
-    @post = Post.new(title: MDT.date+'随笔' , content: params[:content] , user_id: current_user.id )
-    @post.save
+    @post = Post.new(title: MDT.date + '随笔' , content: params[:content] , user_id: current_user.id )
+    @post.save 
+    
+    @page = params[:page] || 1
+    @per_page = 10
+    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @per_page)
+
     render 'show'
   end
 
