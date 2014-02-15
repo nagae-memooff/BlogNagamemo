@@ -20,9 +20,9 @@
 	</div>
 	<div class="field">
 		<%= f.label :content, '正文' %><br>
-		<%= f.text_area :content %>
+		<%= f.text_area :content, onkeypress: 'ctrlEnter(event, "submit")' %>
 	</div>
 	<div class="actions">
-		<%= f.submit '发帖', class: 'btn btn-primary' %>
+		<%= f.submit '提交', class: 'btn btn-primary', id: 'submit' %>
 	</div>
 <% end %>

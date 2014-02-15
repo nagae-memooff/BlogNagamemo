@@ -52,3 +52,9 @@ function quickNewPostDivSlideUp() {
 function quickNewPostDivSlideDown() {
   $("#quick-new").animate({top: '40px'}, {queue: false, duration: "fast"});
 }
+function ctrlEnter(event, id) {
+  if(event.ctrlKey && event.keyCode==13) {
+    document.getElementById(id).click();
+    return false;
+  }
+}

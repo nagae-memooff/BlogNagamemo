@@ -13,7 +13,7 @@
   <%= link_to '编辑', edit_post_path(@post) %> |
 <% end %>
 <hr />
-<wb:share-button appkey="3ffQaP" addition="full" type="button" default_text="分享自好门的博客：" class="pull-right"></wb:share-button>
+<wb:share-button appkey="3ffQaP" addition="full" type="button" default_text="<%= @post.title %>（分享自好门的博客）" class="pull-right"></wb:share-button>
 <div>
   <h3>评论列表</h3>
   <%= ( count = @post.comments.count ) == 0 ? "还没有人评论。" : "共有"+count.to_s+"条评论"  %>
@@ -39,8 +39,8 @@
   <%= form_for(Comment.new) do |c| %>
     <%= c.hidden_field :user_id , value: current_user.id %>
     <%= c.hidden_field :post_id , value: @post.id %>
-    <%= c.text_area :content , style: 'width:100%' %>
-    <%= c.submit '提交评论',   class: 'btn btn-primary' %>
+    <%= c.text_area :content , style: 'width:100%', onkeypress: 'ctrlEnter(event, "commit");' %>
+    <%= c.submit '提交评论',   class: 'btn btn-primary', id: 'commit' %>
     <input type="button" onclick="clearRepoArea()" value="清空输入框" class="btn" />
   <% end %>
 <% end %>
