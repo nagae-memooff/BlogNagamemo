@@ -1,19 +1,21 @@
 #encoding: utf-8
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  cattr_reader :per_page, :comment_per_page
 
+  @@per_page = 5
+  @@comment_per_page = 10
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.includes(:user).paginate(page: params[:page], per_page: 5)
+    @posts = Post.includes(:user).paginate(page: params[:page], per_page: @@per_page)
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @page = params[:page] || 1
-    @per_page = 10
-    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @per_page)
+    @page = params[:page] || "1"
+    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @comment_per_page)
   end
 
   # GET /posts/new
@@ -33,29 +35,13 @@ class PostsController < ApplicationController
     @post = Post.new(title: MDT.date + '随笔' , content: params[:content] , user_id: current_user.id )
     @post.save 
     
-    @page = params[:page] || 1
-    @per_page = 10
-    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @per_page)
+    @page = params[:page] || "1"
+    @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @@comment_per_page)
 
-    render 'show'
+    redirect_to @post
+#     render 'show'
   end
 
-  def search
-    @keywords = params[:search_keywords].split
-    @posts = []
-
-    @keywords.each do |keyword|
-      @posts |= Post.includes(:user).where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%")
-    end
-
-    @msg = if @posts.count == 0
-             "没有符合条件的日志！"
-           else
-             "找到#{@posts.count}条记录"
-           end
-
-    render 'index'
-  end
   # POST /posts
   # POST /posts.json
   def create
@@ -96,6 +82,37 @@ class PostsController < ApplicationController
     end
   end
 
+  def search
+    @keywords = params[:search_keywords].split
+
+    posts_list = {} and posts_list.default = 0
+    all_posts = []
+
+
+    @keywords.each do |keyword|
+      Post.includes(:user).where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%").each do |post|
+        posts_list[post] += 1
+      end
+    end
+
+    posts_array = (posts_list.sort_by {|key, value| value }).reverse
+
+    posts_array.each { |post, count| all_posts << post ; logger.info post; logger.info count }
+    logger.info posts_list
+
+#     @posts = paginate_posts all_posts, page
+    @posts = all_posts
+
+    @msg = if @posts.count == 0
+             "没有符合条件的日志！"
+           else
+             "找到#{@posts.count}条记录"
+           end
+
+    render 'index'
+  end
+
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_post
@@ -106,4 +123,11 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:user_id, :title, :content)
   end
+
+#   def paginate_posts posts, page
+#     start_at = (page.to_i - 1) * @@per_page
+#     end_at = page.to_i * @@per_page
+#     paginated_posts = posts[start_at...end_at]
+#     paginated_posts
+#   end
 end

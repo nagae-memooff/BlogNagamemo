@@ -18,7 +18,7 @@
   <h3>评论列表</h3>
   <%= ( count = @post.comments.count ) == 0 ? "还没有人评论。" : "共有"+count.to_s+"条评论"  %>
   <br />
-  <% cmtcount = 0 + (@page.to_i - 1 ) * @per_page %>
+  <% cmtcount = 0 + (@page.to_i - 1 ) * PostsController.per_page %>
   <% @comments.each do |comment| %>
     <div class="pull-left comment-portrait">
       <%= raw set_portrait comment.user %>
