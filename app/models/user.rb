@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
 	has_many :posts
 	has_many :comments
+  has_many :file_records
 
 	def User.new_remember_token
 		SecureRandom.urlsafe_base64
