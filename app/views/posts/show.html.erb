@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<% @post.viewed_times += 1 unless signed_in? && current_user == @post.user %>
+<% @post.viewed_times += 1 and @post.save unless signed_in? && current_user == @post.user %>
 
 <h2><%= @post.title %></h2>
 <% comments_count = @post.comments.count %>

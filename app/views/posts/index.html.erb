@@ -1,5 +1,6 @@
 <%= print_keywords @keywords, @posts.count unless @keywords.nil? %>
-<% ViewCount.first.count += 1 unless signed_in? && current_user == User.first %>
+<% view_count = ViewCount.first %>
+<% view_count.count += 1 and view_count.save unless signed_in? && current_user == User.first %>
 <% if @posts.count != 0 %>
   <% @posts.each do |post| %>
     <div class="post-overview-item">

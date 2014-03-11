@@ -32,7 +32,7 @@ role :db,  db_servers
 # git配置
 set :deploy_via, :remote_cache
 set :scm, 'git'                   # scm软件管理配置
-set :branch, 'master'             # 分支
+set :branch, 'dev'             # 分支
 set :scm_verbose, true            # 是否建立current目录
 
 # 其他
