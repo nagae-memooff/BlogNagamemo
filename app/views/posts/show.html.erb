@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
-<% @post.viewed_count += 1 unless signed_in? && current_user == @post.user %>
+<% @post.viewed_times += 1 unless signed_in? && current_user == @post.user %>
 
 <h2><%= @post.title %></h2>
 <% comments_count = @post.comments.count %>
 <%= raw set_portrait @post.user, 's'%>
 <%= link_to @post.user.name ,@post.user %> 发表于 <%= @post.created_at %>
   <span class="pull-right">
-    <%= "阅览(#{@post.viewed_count})  评论(#{comments_count})" %>
+    <%= "阅览(#{@post.viewed_times})  评论(#{comments_count})" %>
   </span>
 <hr />
 <div class="content">
