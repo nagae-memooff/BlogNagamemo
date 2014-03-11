@@ -22,6 +22,6 @@ module BlogNagamemo
 		config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 		
 		config.time_zone = 'Beijing'
-		config.active_record.default_timezone = :Beijing
+		config.active_record.default_timezone = :utc
 	end
 end
