@@ -14,7 +14,7 @@
       </div>
       <br />
       <span class="pull-right">
-        <%= "阅览(#{post.viewed_count})  评论(#{post.comments.count})" %>
+        <%= "阅览(#{post.viewed_times})  评论(#{post.comments.count})" %>
       </span>
       <%= link_to '全文', post %>
       <% if is_mine?(post) %>
