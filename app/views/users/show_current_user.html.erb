@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<%= raw set_portrait @user, 'l'%>
+  <%= image_tag @user.portrait_url, class: "portrait_l" %>
 <p>
   <strong>用户名:</strong>
   <%= @user.name %>

@@ -3,7 +3,7 @@
 
 <h2><%= @post.title %></h2>
 <% comments_count = @post.comments.count %>
-<%= raw set_portrait @post.user, 's'%>
+<%= image_tag @post.user.portrait_url, class: "portrait_s" %>
 <%= link_to @post.user.name ,@post.user %> 发表于 <%= @post.created_at %>
   <span class="pull-right">
     <%= "阅览(#{@post.viewed_times})  评论(#{comments_count})" %>
@@ -24,7 +24,7 @@
   <% cmtcount = 0 + (@page.to_i - 1 ) * PostsController.per_page %>
   <% @comments.each do |comment| %>
     <div class="pull-left comment-portrait">
-      <%= raw set_portrait comment.user %>
+      <%= image_tag comment.user.portrait_url, class: "portrait_s" %>
     </div>
     <div class="comment-content pull-left">
       <%= cmtcount += 1 %>楼
