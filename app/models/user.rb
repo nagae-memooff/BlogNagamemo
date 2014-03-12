@@ -24,6 +24,23 @@ class User < ActiveRecord::Base
     self.admin
   end
 
+  def portrait_url(size='s')
+    portrait_path = if Rails.env == 'development'
+                      if File.exist? "#{Rails.root}/app/assets/images/portraits/#{self.id}.png"
+                        "/assets/portraits/#{self.id}.png"
+                      else
+                        "/assets/portraits/default_portrait.png"
+                      end
+                    elsif Rails.env == 'production'
+                      if File.exist? "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{self.id}.png"
+                        "/portraits/#{self.id}.png"
+                      else
+                        "/portraits/default_portrait.png"
+                      end
+                    end
+    portrait_path
+  end
+
 	private
 
 	def create_remember_token

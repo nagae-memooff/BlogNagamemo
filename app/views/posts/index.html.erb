@@ -6,7 +6,8 @@
     <div class="post-overview-item">
       <h2><%= link_to post.title, post %></h2>
       <div>
-      <%= raw set_portrait post.user, 's'%>
+<%#      <%= raw set_portrait post.user, 's'+|%>
+      <%= image_tag post.user.portrait_url %>
       <span class="test"> <%= link_to post.user.name , post.user %> 发表于：<%= post.created_at %> </span>
       </div>
       <br />
