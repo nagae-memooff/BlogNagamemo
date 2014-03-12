@@ -24,7 +24,7 @@
 						<% if signed_in? %>
 							<li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
 							<li><%= link_to current_user.name,  '/show_me'  %></li>
-              <li><%= image_tag post.user.portrait_url, class: "portrait_s"  %></li>
+              <li><%= image_tag current_user.portrait_url, class: "portrait_s"  %></li>
 						<% else %>
 							<li><%= link_to "登录", sign_in_path %></li>
 							<li><%= link_to "注册用户", sign_up_path %></li>
