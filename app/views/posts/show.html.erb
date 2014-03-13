@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<% @post.viewed_times += 1 and @post.save unless signed_in? && current_user == @post.user %>
+<% @post.viewed_times += 1 and @post.save unless is_mine?(@post) %>
 
 <h2><%= @post.title %></h2>
 <% comments_count = @post.comments.count %>
@@ -12,15 +12,14 @@
 <div class="content">
   <%= simple_format @post.content %>
 </div>
-<% if is_mine?(@post) %>
-  <%= link_to '编辑', edit_post_path(@post) %> |
-<% end %>
+<%= link_to('编辑', edit_post_path(@post)) if is_mine?(@post)  %> |
+<%= link_to('删除', @post, method: 'delete', data: {confirm: "确定删除贴吗？"} ) if is_mine?(@post) || current_user.try(:is_admin?) %>
 <% unless @post.file_records.blank? %>
   <div id="attachment" class="pull-right">
     <span>附件：</span>
     <% @post.file_records.each do |file| %>
       <%= link_to file.file_name, file.url %>
-      <%= link_to('删除', file, method: 'delete') if current_user.is_admin? || is_mine?(@post) %>
+      <%= link_to('删除', file, method: 'delete' , data: { confirm: "确定删除附件吗？ \n #{file.file_name} " }) if is_mine?(@post) || current_user.try(:is_admin?) %>
       <br />
     <% end %>
   </div>
@@ -41,7 +40,7 @@
       <%= link_to comment.user.name, comment.user %> &nbsp;&nbsp; 发表于：<%= comment.created_at %>
       <%= simple_format comment.content %>
       <a target="_self" onclick="repo('<%= cmtcount %>','<%= comment.user.name %>')" style="cursor:pointer;">回帖</a>
-      <%= link_to '删除评论', comment, method: :delete, data: { confirm: '确定删除本条评论吗？' } if is_mine?(comment) %>
+      <%= link_to '删除评论', comment, method: :delete, data: { confirm: '确定删除本条评论吗？' } if is_mine?(comment) || current_user.try(:is_admin?) %>
       <hr />
     </div>
   <% end %>

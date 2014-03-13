@@ -107,7 +107,7 @@ end
 # 在更新代码之后，执行bundle install
 after "deploy:update_code", :create_portrait_symlink, :create_file_symlink, :complie_asset, :restart_nginx
 
-after "deploy:create_symlink", :bundle_install
+after "deploy:create_symlink", :bundle_install, :start_crontab
 
 desc "complie asset files"
 task :complie_asset do
@@ -135,6 +135,10 @@ task :restart_nginx do
 #    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
 end 
 
+desc "update crontab"
+task :start_crontab do
+  run "cd #{current_path} && whenever -i --update-crontab blog_nagamemo"
+end
 
 set :rvm_ruby_string, "ruby-1.9.3-p484"#@#{application}"
 

@@ -53,6 +53,7 @@ group :deploy do
 end
 
 gem 'pry-rails'
+gem 'whenever'
 # gem 'carrierwave'
 # Use ActiveModel has_secure_password
 

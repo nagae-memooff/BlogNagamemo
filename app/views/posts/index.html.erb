@@ -1,6 +1,4 @@
 <%= print_keywords @keywords, @posts.count unless @keywords.nil? %>
-<% view_count = ViewCount.first %>
-<% view_count.count += 1 and view_count.save unless signed_in? && current_user == User.first %>
 <% if @posts.count != 0 %>
   <% @posts.each do |post| %>
     <div class="post-overview-item">
@@ -21,7 +19,7 @@
       <%= link_to '全文', post %>
       <% if is_mine?(post) %>
         <%= link_to '修改', edit_post_path(post) %>
-        <%= link_to '删除', post, method: :delete, data: { confirm: '确定要删除吗？' } %>
+        <%= link_to '删除', post, method: :delete, data: { confirm: '确定要删除帖子吗？' } %>
       <% end %>
       <hr />
     </div>

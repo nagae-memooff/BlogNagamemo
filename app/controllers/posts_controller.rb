@@ -4,6 +4,7 @@ class PostsController < ApplicationController
 
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :save_file, only: [:create, :update]
+  before_action :add_view_count, only: [:index]
   cattr_reader :per_page, :comment_per_page
 
   @@per_page = 5
@@ -147,18 +148,14 @@ class PostsController < ApplicationController
     end
   end
 
-#     respond_to do |format|
-#       format.html { redirect_to '/edit_me', notice: result[:msg]  }
-#       format.json { render :json => result.as_json }
-#     end
-
-#   end
-
-
-#   def paginate_posts posts, page
-#     start_at = (page.to_i - 1) * @@per_page
-#     end_at = page.to_i * @@per_page
-#     paginated_posts = posts[start_at...end_at]
-#     paginated_posts
-#   end
+  # FIXME:没有考虑到同一用户多次浏览主页时重复计数的问题
+  def add_view_count
+    view_count = ViewCount.first
+    if current_user != User.first
+      view_count.count += 1
+      view_count.today_count += 1
+      view_count.save
+    end
+    view_count
+  end
 end

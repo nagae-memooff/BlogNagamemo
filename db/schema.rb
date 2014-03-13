@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140311094628) do
+ActiveRecord::Schema.define(version: 20140313130058) do
 
   create_table "comments", force: true do |t|
     t.integer  "post_id"
@@ -55,9 +55,10 @@ ActiveRecord::Schema.define(version: 20140311094628) do
   add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
   create_table "view_counts", force: true do |t|
-    t.integer  "count",      default: 0
+    t.integer  "count",       default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "today_count", default: 0
   end
 
 end

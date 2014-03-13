@@ -1,3 +1,4 @@
+# coding=utf-8
 module ApplicationHelper
   def set_portrait(user, size='s')
     if Rails.env == 'development'
@@ -31,5 +32,14 @@ module ApplicationHelper
     text.gsub!(/^/, '\1&nbsp;&nbsp;&nbsp;&nbsp;') # 1 newline   -> br
     text.insert 0, start_tag
     text.html_safe.safe_concat("</p>")
+  end
+
+  def viewer_msg
+    view_count = ViewCount.first
+    sum_count = view_count.count
+    today_count = view_count.today_count
+
+    viewer_msg = "总共#{sum_count}次浏览，今日#{today_count}次。"
+    viewer_msg
   end
 end
