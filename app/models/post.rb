@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :user
   has_many :comments, dependent: :destroy
-  has_many :file_records, depdent: :destory
+  has_many :file_records, dependent: :destory
 
   default_scope { order('id desc') }
 end
