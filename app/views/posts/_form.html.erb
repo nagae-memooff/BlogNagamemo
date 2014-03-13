@@ -20,6 +20,9 @@
 	<div class="field">
 		<%= f.text_area :content, onkeypress: 'ctrlEnter(event, "submit")', style: 'width:95%', rows: 12, placeholder: "请输入正文" %>
 	</div>
+  <div class="field">
+    <input type="file" multiple="true" name="files[]" />
+  </div>
 	<div class="actions">
 		<%= f.submit '提交', class: 'btn btn-primary', id: 'submit' %>
 	</div>

@@ -1,6 +1,9 @@
 #encoding: utf-8
 class PostsController < ApplicationController
+  include ActionView::Helpers::TextHelper
+
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :save_file, only: [:create, :update]
   cattr_reader :per_page, :comment_per_page
 
   @@per_page = 5
@@ -61,9 +64,10 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    upload_failed_msg = @failed_files.blank? ? "" : "But upload #{pluralize(@failed_files.count, "file")} failed."
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.html { redirect_to @post, notice: "Post was successfully updated.#{upload_failed_msg}" }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -123,6 +127,33 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:user_id, :title, :content)
   end
+
+  def save_file
+    uploaded_files = params[:files]
+    @failed_files = []
+
+    uploaded_files.each do |uploaded_file|
+      file_name = "#{Date.today.to_s}_#{uploaded_file.original_filename}"
+      file_path = "/home/nagae-memooff/rails/blog_nagamemo/shared/files/#{file_name}"
+
+      begin
+        FileRecords.create(file_name: file_name, user_id: current_user.id, post_id: @post.id)
+        File.open(file_path, 'wb') do |file|
+          file.write(uploaded_file.read)
+        end
+      rescue Exception
+        @failed_files << uploaded_file.original_filename
+      end
+    end
+  end
+
+#     respond_to do |format|
+#       format.html { redirect_to '/edit_me', notice: result[:msg]  }
+#       format.json { render :json => result.as_json }
+#     end
+
+#   end
+
 
 #   def paginate_posts posts, page
 #     start_at = (page.to_i - 1) * @@per_page
