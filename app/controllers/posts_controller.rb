@@ -137,7 +137,7 @@ class PostsController < ApplicationController
       file_path = "/home/nagae-memooff/rails/blog_nagamemo/shared/files/#{file_name}"
 
       begin
-        FileRecords.create(file_name: file_name, user_id: current_user.id, post_id: @post.id)
+        FileRecord.create(file_name: file_name, user_id: current_user.id, post_id: @post.id)
         File.open(file_path, 'wb') do |file|
           file.write(uploaded_file.read)
         end
