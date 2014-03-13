@@ -26,7 +26,7 @@
         <span>附件</span>
         <% @post.file_records.each do |file| %>
           <%= link_to file.file_name, file.url %>
-          <%= link_to(file, method: 'delete') if is_mine?(@post) %>
+          <%= link_to('删除', file, method: 'delete') if is_mine?(@post) %>
           <br />
         <% end %>
       </div>
