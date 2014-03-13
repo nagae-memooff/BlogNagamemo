@@ -15,7 +15,8 @@
       </div>
       <br />
       <span class="pull-right">
-        <%= "阅览(#{post.viewed_times})  评论(#{post.comments.count})" %>
+        <%= "阅览(#{post.viewed_times})评论(#{post.comments.count})" %>
+        <%= raw "附件(#{link_to post.file_records.count, "#{post_path(post)}#attachment"})" unless post.file_records.blank?  %>
       </span>
       <%= link_to '全文', post %>
       <% if is_mine?(post) %>

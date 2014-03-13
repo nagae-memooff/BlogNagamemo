@@ -21,6 +21,16 @@
 		<%= f.text_area :content, onkeypress: 'ctrlEnter(event, "submit")', style: 'width:95%', rows: 12, placeholder: "请输入正文" %>
 	</div>
   <div class="field">
+    <% unless @post.file_records.blank? %>
+      <div id="attachment" class="pull-right">
+        <span>附件</span>
+        <% @post.file_records.each do |file| %>
+          <%= link_to file.file_name, file.url %>
+          <%= link_to(file, method: DELETE) if is_mine?(@post) %>
+          <br />
+        <% end %>
+      </div>
+    <% end %>
     <input type="file" multiple="true" name="files[]" />
   </div>
 	<div class="actions">

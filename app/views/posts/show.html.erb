@@ -15,6 +15,16 @@
 <% if is_mine?(@post) %>
   <%= link_to '编辑', edit_post_path(@post) %> |
 <% end %>
+<% unless @post.file_records.blank? %>
+  <div id="attachment" class="pull-right">
+    <span>附件：</span>
+    <% @post.file_records.each do |file| %>
+      <%= link_to file.file_name, file.url %>
+      <%= link_to(file, method: DELETE) if current_user.is_admin? || is_mine?(@post) %>
+      <br />
+    <% end %>
+  </div>
+<% end%>
 <hr />
 <wb:share-button appkey="3ffQaP" addition="full" type="button" default_text="<%= @post.title %>（分享自好门的博客）" class="pull-right"></wb:share-button>
 <div>

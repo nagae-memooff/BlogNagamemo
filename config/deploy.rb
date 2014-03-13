@@ -105,7 +105,7 @@ namespace :db do
 end
 
 # 在更新代码之后，执行bundle install
-after "deploy:update_code", :create_portrait_symlink, :complie_asset, :restart_nginx
+after "deploy:update_code", :create_portrait_symlink, :create_file_symlink, :complie_asset, :restart_nginx
 
 after "deploy:create_symlink", :bundle_install
 
@@ -119,6 +119,11 @@ task :create_portrait_symlink do
   run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/portraits public/portraits"
 end
 
+desc "create file symbol link"
+task :create_file_symlink do
+  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/files public/files"
+end
+
 desc "install the necessary preprequisites"
 task :bundle_install do
   run "cd #{current_path} &&  bundle install"
@@ -126,7 +131,8 @@ end
 
 desc "restart nginx"
 task :restart_nginx do 
-   run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+  sudo "/home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+#    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
 end 
 
 
