@@ -13,12 +13,13 @@ BlogNagamemo::Application.routes.draw do
 		end
 	end
 
+
 	resources :posts do
 		resources :comments
 	end
 
 	resources :comments
-
+  resources :file_records
 	resources :sessions
 	# The priority is based upon order of creation: first created -> highest priority.
 	# See how all your routes lay out with "rake routes".
