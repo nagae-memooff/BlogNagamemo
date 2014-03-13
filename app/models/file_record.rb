@@ -8,6 +8,7 @@ class FileRecord < ActiveRecord::Base
   end
 
   def delete_file
-     File.delete(self.url) if File.exist?(self.url)
+    file_path = "#{Rails.root}/public#{self.url}"
+    File.delete(file_path) if File.exist?(file_path)
   end
 end

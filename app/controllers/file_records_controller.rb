@@ -54,9 +54,10 @@ class FileRecordsController < ApplicationController
   # DELETE /file_records/1
   # DELETE /file_records/1.json
   def destroy
+    @post = @file_record.post
     @file_record.destroy
     respond_to do |format|
-      format.html { redirect_to file_records_url }
+      format.html { redirect_to @post }
       format.json { head :no_content }
     end
   end
