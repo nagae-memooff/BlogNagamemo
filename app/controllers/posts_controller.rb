@@ -12,7 +12,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.includes(:user).paginate(page: params[:page], per_page: @@per_page)
+    @posts = Post.includes(:user, :file_records).paginate(page: params[:page], per_page: @@per_page)
   end
 
   # GET /posts/1
@@ -38,12 +38,12 @@ class PostsController < ApplicationController
   def quick_new
     @post = Post.new(title: MDT.date + '随笔' , content: params[:content] , user_id: current_user.id )
     @post.save 
-    
+
     @page = params[:page] || "1"
     @comments = Comment.includes(:user).where(post_id: @post.id).paginate(page: @page, per_page: @@comment_per_page)
 
     redirect_to @post
-#     render 'show'
+    #     render 'show'
   end
 
   # POST /posts
@@ -105,7 +105,7 @@ class PostsController < ApplicationController
     posts_array.each { |post, count| all_posts << post ; logger.info post; logger.info count }
     logger.info posts_list
 
-#     @posts = paginate_posts all_posts, page
+    #     @posts = paginate_posts all_posts, page
     @posts = all_posts
 
     @msg = if @posts.count == 0
@@ -150,12 +150,28 @@ class PostsController < ApplicationController
 
   # FIXME:没有考虑到同一用户多次浏览主页时重复计数的问题
   def add_view_count
-    view_count = ViewCount.first
-    if current_user != User.first
-      view_count.count += 1
-      view_count.today_count += 1
-      view_count.save
+    last_view = if signed_in?
+                  ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+                else
+                  ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+                end
+
+    if last_view.nil? || Time.now - last_view >= 3600
+      viewer_log = ViewerLog.new
+      viewer_log[:view_type] = ViewerLog::VIEW_TYPE_INDEX
+      if signed_in?
+        viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_SIGNED_IN
+        viewer_log[:user_id] = current_user.id
+      else
+        viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_IP
+        viewer_log[:user_ip] = request.remote_ip
+      end
+      if viewer_log.save
+        view_count = ViewCount.first
+        view_count.count += 1
+        view_count.today_count += 1
+        view_count.save
+      end
     end
-    view_count
   end
 end

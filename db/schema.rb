@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313130058) do
+ActiveRecord::Schema.define(version: 20140324113000) do
 
   create_table "comments", force: true do |t|
     t.integer  "post_id"
@@ -59,6 +59,16 @@ ActiveRecord::Schema.define(version: 20140313130058) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "today_count", default: 0
+  end
+
+  create_table "viewer_logs", force: true do |t|
+    t.integer  "view_type",  default: 0
+    t.integer  "post_id"
+    t.integer  "login_type", default: 0
+    t.integer  "user_id"
+    t.string   "user_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

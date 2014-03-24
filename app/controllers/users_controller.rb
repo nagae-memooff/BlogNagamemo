@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 			file.write(uploaded_io.read)
 		end
 		img_orig = Magick::Image.read(tmp_file_path).first
-		w,h = img_orig.columns,img_orig.rows
+		w, h = img_orig.columns, img_orig.rows
 		if w > h 
 			shaved_off = (w-h).round 
 			img = img_orig.crop(Magick::CenterGravity, w-shaved_off, h)
@@ -125,7 +125,7 @@ class UsersController < ApplicationController
 			shaved_off = (h-w).round 
 			img = img_orig.crop(Magick::CenterGravity, w, h-shaved_off)
 		end
-		img.resize(160,160).write file_path
+		img.resize(160, 160).write file_path
 		File.delete(tmp_file_path) if File.exist?(tmp_file_path)
 	end
 end
