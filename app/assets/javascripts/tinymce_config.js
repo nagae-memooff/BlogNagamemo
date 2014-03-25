@@ -1,5 +1,5 @@
 'use strict';
-tinymce.init({ 
+tinyMCE.init({ 
   selector:'#post_content',
   theme: "modern",
   plugins: [
@@ -13,5 +13,4 @@ tinymce.init({
   height: 300,
   toolbar1: "preview | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor emoticons | searchreplace code",
   image_advtab: true,
-  content_css : "/assets/application.css"
 });
