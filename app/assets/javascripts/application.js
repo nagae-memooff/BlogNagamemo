@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require tinymce
-//= require tinymce_config
 //= require_tree .
 
 function clearContent(){
