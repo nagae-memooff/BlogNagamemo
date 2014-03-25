@@ -137,7 +137,7 @@ end
 
 desc "update crontab"
 task :start_crontab do
-  run "cd #{current_path} && whenever -i --update-crontab blog_nagamemo"
+  run "cd #{current_path} && bundle exec whenever -i --update-crontab blog_nagamemo"
 end
 
 set :rvm_ruby_string, "ruby-1.9.3-p484"#@#{application}"

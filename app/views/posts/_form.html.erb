@@ -1,3 +1,4 @@
+<%= javascript_include_tag "tinymce_config",  "data-turbolinks-track" => true %>
 <%= form_for(@post, html: {multipart: true}) do |f| %>
 	<% if @post.errors.any? %>
 		<div id="error_explanation">
@@ -18,7 +19,7 @@
 		<%= f.text_field :title, placeholder: "请输入标题" %>
 	</div>
 	<div class="field">
-		<%= f.text_area :content, onkeypress: 'ctrlEnter(event, "submit")', style: 'width:95%', rows: 12, placeholder: "请输入正文" %>
+<%= f.text_area :content, onkeypress: 'ctrlEnter(event, "submit")', placeholder: "请输入正文", rows: 12 %>
 	</div>
   <div class="field">
     <% unless @post.file_records.blank? %>

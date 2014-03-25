@@ -10,7 +10,7 @@
   </span>
 <hr />
 <div class="content">
-  <%= simple_format @post.content %>
+  <%= raw @post.content %>
 </div>
 <%= link_to('编辑', edit_post_path(@post)) if is_mine?(@post)  %> |
 <%= link_to('删除', @post, method: 'delete', data: {confirm: "确定删除贴吗？"} ) if is_mine?(@post) || current_user.try(:is_admin?) %>

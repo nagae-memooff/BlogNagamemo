@@ -1,5 +1,6 @@
 #encoding: utf-8
 class PostsController < ApplicationController
+  include ApplicationHelper
   include ActionView::Helpers::TextHelper
 
   before_action :set_post, only: [:show, :edit, :update, :destroy]
@@ -36,7 +37,7 @@ class PostsController < ApplicationController
   end
 
   def quick_new
-    @post = Post.new(title: MDT.date + '随笔' , content: params[:content] , user_id: current_user.id )
+    @post = Post.new(title: MDT.date + '随笔' , content: simple_format(params[:content]) , user_id: current_user.id )
     @post.save 
 
     @page = params[:page] || "1"
@@ -130,7 +131,7 @@ class PostsController < ApplicationController
   end
 
   def save_file
-    uploaded_files = params[:files]
+    uploaded_files = params[:files] || []
     @failed_files = []
 
     uploaded_files.each do |uploaded_file|

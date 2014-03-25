@@ -10,7 +10,7 @@
       </div>
       <br />
       <div class="content">
-        <%=h simple_format post.content.truncate 200%>
+      <%= simple_format strip_tags(post.content).truncate 400 %>
       </div>
       <br />
       <span class="pull-right">
