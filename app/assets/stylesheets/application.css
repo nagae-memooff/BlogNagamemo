@@ -21,6 +21,7 @@ body {
 #quick-new {
   width:940px;
 /*  margin: -50px auto;*/
+  z-index:1020;
   position:fixed;
   left:0;
   right:0;
