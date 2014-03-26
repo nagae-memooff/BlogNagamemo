@@ -160,12 +160,12 @@ class PostsController < ApplicationController
     if last_view.nil? || Time.now - last_view >= 3600
       viewer_log = ViewerLog.new
       viewer_log[:view_type] = ViewerLog::VIEW_TYPE_INDEX
+      viewer_log[:user_ip] = request.remote_ip
       if signed_in?
         viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_SIGNED_IN
         viewer_log[:user_id] = current_user.id
       else
         viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_IP
-        viewer_log[:user_ip] = request.remote_ip
       end
       if viewer_log.save
         view_count = ViewCount.first
