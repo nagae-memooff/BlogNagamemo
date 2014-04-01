@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :save_file, only: [:create, :update]
+  after_action :save_file, only: [:create, :update]
   before_action :add_view_count, only: [:index]
   cattr_reader :per_page, :comment_per_page
 
