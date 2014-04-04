@@ -22,13 +22,13 @@ class UsersController < ApplicationController
   def edit
   end
 
-	def show_current_user
-		@user = current_user
-	end
+  def show_current_user
+    @user = current_user
+  end
 
-	def edit_current_user
-		@user = current_user
-	end
+  def edit_current_user
+    @user = current_user
+  end
 
   # POST /users
   # POST /users.json
@@ -51,10 +51,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to "/show_me", notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'edit_me' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -70,62 +70,61 @@ class UsersController < ApplicationController
     end
   end
 
-	def set_portrait_img
-		#TODO:1、如果上传非图片文件，或者非png格式怎么处理
-		upload_pic_io = params[:portrait_file]
-		result = {}
-    
-		begin
-			user_id = current_user.id
-			tmp_file_path = "/dev/shm/temp_portrait_#{user_id}_#{rand(0xffffff)}"
+  def set_portrait_img
+    #TODO:1、如果上传非图片文件，或者非png格式怎么处理
+    upload_pic_io = params[:portrait_file]
+    result = {}
+
+    begin
+      user_id = current_user.id
       file_path = if Rails.env == 'development'
                     "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
                   else
                     "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{user_id}.png"
                   end
-			save_resize_picture(upload_pic_io, tmp_file_path, file_path)
-			result[:status] = 'OK'
-			result[:msg] = "成功上传头像"
-#     rescue Exception
+      save_resize_picture(upload_pic_io, file_path)
+      result[:status] = 'OK'
+      result[:msg] = "成功上传头像"
+    rescue Exception
+      result[:status] = 'ERR'
+      result[:msg] = e
     rescue ActiveRecord::RecordNotFound
-			result[:status] = 'ERR'
-			result[:msg] = "上传头像失败"
-		end
+      result[:status] = 'ERR'
+      result[:msg] = "无此用户"
+    end
 
-		respond_to do |format|
-			format.html { redirect_to '/edit_me', notice: result[:msg]  }
-			format.json { render :json => result.as_json }
-		end
-	end
+    respond_to do |format|
+      format.html { redirect_to '/edit_me', notice: result[:msg]  }
+      format.json { render :json => result.as_json }
+    end
+  end
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :mood)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :mood)
+  end
 
+  def save_resize_picture(uploaded_io, file_path)
+    img_orig = MiniMagick::Image.read(uploaded_io)
+    w, h = img_orig[:width], img_orig[:height]
 
-	def save_resize_picture(uploaded_io, tmp_file_path, file_path)
-		require 'RMagick'
-		File.open( tmp_file_path, 'wb') do |file|
-			file.write(uploaded_io.read)
-		end
-		img_orig = Magick::Image.read(tmp_file_path).first
-		w, h = img_orig.columns, img_orig.rows
-		if w > h 
-			shaved_off = (w-h).round 
-			img = img_orig.crop(Magick::CenterGravity, w-shaved_off, h)
-		else 
-			shaved_off = (h-w).round 
-			img = img_orig.crop(Magick::CenterGravity, w, h-shaved_off)
-		end
-		img.resize(160, 160).write file_path
-		File.delete(tmp_file_path) if File.exist?(tmp_file_path)
-	end
+    shaved_size = if w > h
+                    shaved_off = (w-h).round / 2
+                    "#{shaved_off}x0"
+                  else 
+                    shaved_off = (h-w).round / 2
+                    "0x#{shaved_off}"
+                  end
+
+    img_orig.shave shaved_size
+    img_orig.resize 160
+    img_orig.write file_path
+  end
 end

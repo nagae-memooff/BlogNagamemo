@@ -26,7 +26,7 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     if signed_in?
-      @post = Post.new 
+      @post = Post.new
     else
       redirect_to sign_in_path
     end

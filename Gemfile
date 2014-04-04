@@ -3,7 +3,7 @@ source 'http://ruby.taobao.org'
 gem 'rails', '4.0.0'
 gem 'tinymce-rails'
 
-gem 'rmagick'
+gem 'mini_magick'
 gem 'mysql2'
 
 group :test do
