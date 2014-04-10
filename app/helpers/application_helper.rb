@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def viewer_msg
-    view_count = ViewCount.first
+    view_count = ViewCount.first || ViewCount.create
     sum_count = view_count.count
     today_count = view_count.today_count
 

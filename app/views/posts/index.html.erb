@@ -1,5 +1,5 @@
 <%= viewer_msg %>
-<%= print_keywords @keywords, @posts.count unless @keywords.nil? %>
+<%= print_keywords @keywords, @posts.count unless @keywords.blank? || @posts.blank? %>
 <% if @posts.count != 0 %>
   <% @posts.each do |post| %>
     <div class="post-overview-item">
