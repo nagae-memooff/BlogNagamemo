@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
                       if File.exist? "/home/nagae-memooff/rails/blog_nagamemo/shared/portraits/#{self.id}.png"
                         "/portraits/#{self.id}.png"
                       else
-                        "/portraits/default_portrait.png"
+                        "default_portrait.png"
                       end
                     end
     portrait_path
