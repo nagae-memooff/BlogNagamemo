@@ -1,6 +1,6 @@
 class CreateViewerLogs < ActiveRecord::Migration
   def change
-    create_table :viewer_logs, false: true do |t|
+    create_table :viewer_logs do |t|
       t.integer :view_type, default: 0
       t.integer :post_id
       t.integer :login_type, default: 0
