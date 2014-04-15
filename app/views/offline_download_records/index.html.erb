@@ -1,0 +1,37 @@
+<h1>Listing offline_download_records</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>文件名</th>
+      <th>创建人</th>
+      <th>状态</th>
+      <th>大小</th>
+      <th>平均速度</th>
+      <th>完成于</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @offline_download_records.each do |offline_download_record| %>
+      <tr>
+        <td><%= link_to offline_download_record.file_name, 
+          "#{offline_download_record_path offline_download_record}/download" %></td>
+        <td><%= link_to offline_download_record.user.name, user_path(offline_download_record.user) %></td>
+        <td><%= offline_download_record.status %></td>
+        <td><%= offline_download_record.file_size %></td>
+        <td><%= offline_download_record.aver_speed %></td>
+        <td><%= offline_download_record.finished_at %></td>
+        <td><%= link_to '详情', offline_download_record %></td>
+        <td><%= link_to '删除', offline_download_record,
+          method: :delete, data: { confirm: '确定删除此文件吗？此操作不可恢复。' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= button_to '新建下载', new_offline_download_record_path, class: "btn btn-primary", method: 'get' %>

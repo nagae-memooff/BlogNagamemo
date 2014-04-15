@@ -1,0 +1,32 @@
+<%= form_for(@offline_download_record) do |f| %>
+  <% if @offline_download_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@offline_download_record.errors.count, "error") %> prohibited this offline_download_record from being saved:</h2>
+
+      <ul>
+      <% @offline_download_record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_field :url, placeholder: '请输入要下载的链接地址' %>
+  </div>
+  <div class="field">
+    <%= f.text_field :file_name , placeholder: '请输入文件名'%>
+  </div>
+  <div class="field">
+    <%= f.number_field :retry_times, placeholder: '请输入重试次数' %>
+  </div>
+
+  <div class="field">
+    <%= f.text_area :description, placeholder: '有需要的话,可以输入一个描述' %>
+  </div>
+
+  <%= f.hidden_field :user_id %>
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary", value: "建立下载任务"%>
+  </div>
+<% end %>

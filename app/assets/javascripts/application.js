@@ -59,3 +59,7 @@ function ctrlEnter(event, id) {
     return false;
   }
 }
+
+function toggleLog() {
+  $("#log").slideToggle();
+}

@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>文件名</strong>
+  <%= @offline_download_record.file_name %>
+</p>
+
+<p>
+  <strong>重试次数</strong>
+  <%= @offline_download_record.retry_times %>
+</p>
+
+<p>
+  <strong>建立者</strong>
+  <%= link_to @offline_download_record.user.name, user_path(@offline_download_record.user) %>
+</p>
+
+<p>
+  <strong>状态</strong>
+  <%= @offline_download_record.status %>
+</p>
+
+<p>
+  <strong>源链接</strong>
+  <%= @offline_download_record.url %>
+</p>
+
+<p>
+  <strong>说明</strong>
+  <%= simple_format @offline_download_record.desc %>
+</p>
+
+<% if @offline_download_record.status_code == 2 %>
+  <%= button_to "下载文件", "#{offline_download_record_path @offline_download_record}/download", class: "btn btn-primary", method: 'get' %>
+<% else %>
+  <span>还没下载完成，少安毋躁</span>
+<% end %>
+<%= button_tag 'Back', onclick: "history.go(-1)", class: "btn"%>
+
+<br />
+<%= check_box_tag "show_log", "", true, onchange: 'toggleLog();'%>
+<%= label_tag "show_log", "隐藏下载日志", class: "inline"%>
+<hr />
+<div id="log" style="display: none;">
+<%= simple_format @offline_download_record.log %>
+</div>

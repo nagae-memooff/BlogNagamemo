@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 	has_many :comments, dependent: :destroy
   has_many :file_records, dependent: :destroy
   has_many :viewer_logs, dependent: :destroy
+  has_many :offline_download_records
 
 	def User.new_remember_token
 		SecureRandom.urlsafe_base64

@@ -1,4 +1,12 @@
 BlogNagamemo::Application.routes.draw do
+  resources :offline_download_records do
+    member do
+      get :log
+      get :status
+      get :download
+    end
+  end
+
 #   get "sessions/new"
 #   get "sessions/create"
 #   get "sessions/destroy"
@@ -8,6 +16,7 @@ BlogNagamemo::Application.routes.draw do
 
 	resources :users do
 		resources :comments
+    resources :offline_download_records
 		resources :posts do
 			resources :comments
 		end

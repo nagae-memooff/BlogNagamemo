@@ -8,11 +8,11 @@ require 'rvm/capistrano'
 # 配置
 set :user, 'nagae-memooff'                      # ssh用户名
 set :password, '1namiken'                # ssh密码
-set :web_servers,     '133.242.187.55'       # web服务器
-set :app_servers,     '133.242.187.55'       # 应用服务器
-set :db_servers_main, '133.242.187.55'   # 主数据库服务器
-set :db_servers,      '133.242.187.55'        # 从数据库服务器
-set :domain,          '133.242.187.55'            # 域名
+set :web_servers,     'nagae-memooff.me'       # web服务器
+set :app_servers,     'nagae-memooff.me'       # 应用服务器
+set :db_servers_main, 'nagae-memooff.me'   # 主数据库服务器
+set :db_servers,      'nagae-memooff.me'        # 从数据库服务器
+set :domain,          'nagae-memooff.me'            # 域名
 set :application, "blog_nagamemo"          # 应用名称
 set :port, 22
        
@@ -89,13 +89,13 @@ namespace :db do
   # create数据库
   desc "rake db:create"
   task :create do
-    run "cd #{current_path} && rake db:create RAILS_ENV=production"
+    run "cd #{current_path} && bundle exec rake db:create RAILS_ENV=production"
   end
 
   # migrate database
   desc "migrate database"
   task :migrate do
-    run "cd #{current_path} && rake db:migrate RAILS_ENV=production"
+    run "cd #{current_path} && bundle exec rake db:migrate RAILS_ENV=production"
   end
 
   desc "reload the database with seed data"
@@ -107,12 +107,12 @@ end
 # 在更新代码之后，执行bundle install
 after "deploy:update_code", :create_portrait_symlink, :create_file_symlink, :complie_asset, :restart_nginx
 
-# after "deploy:create_symlink", :bundle_install, :start_crontab
-after "deploy:create_symlink", :start_crontab
+after "deploy:create_symlink", :bundle_install, :start_crontab
+# after "deploy:create_symlink", :start_crontab
 
 desc "complie asset files"
 task :complie_asset do
-  run "cd #{release_path} && rake assets:precompile RAILS_ENV=production"
+  run "cd #{release_path} && bundle exec rake assets:precompile RAILS_ENV=production"
 end
 
 desc "create portrait symbol link"
@@ -125,14 +125,19 @@ task :create_file_symlink do
   run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/files public/files"
 end
 
-# desc "install the necessary preprequisites"
-# task :bundle_install do
-#   run "cd #{current_path} &&  bundle install"
-# end 
+desc "create downloaded file symbol link"
+task :create_download_file_symlink do
+  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/downloaded_files public/download_files"
+end
+
+desc "install the necessary preprequisites"
+task :bundle_install do
+  run "cd #{current_path} &&  bundle install"
+end 
 
 desc "restart nginx"
 task :restart_nginx do 
-  sudo "/home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+  sudo "/opt/nginx/sbin/nginx -s reload"
 end 
 
 desc "update crontab"
@@ -140,7 +145,7 @@ task :start_crontab do
   run "cd #{current_path} && bundle exec whenever -i --update-crontab blog_nagamemo"
 end
 
-set :rvm_ruby_string, "ruby-1.9.3"#@#{application}"
+set :rvm_ruby_string, "ruby-2.1.1"#@#{application}"
 
 before 'deploy:setup', 'rvm:install_rvm'
 before 'deploy:setup', 'rvm:install_ruby'
