@@ -60,7 +60,7 @@ class OfflineDownloadRecord < ActiveRecord::Base
   end
 
   def update_download_info
-    file_size = File.size(self.local_file_path).readable
+    file_size = readable(File.size(self.local_file_path))
 
     info = `tail -n 2 #{self.local_log_path}`
     /([0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}) \(([0-9.]+ [KM]B\/s)\) .*已保存 \[[0-9]+\]/ =~ info
