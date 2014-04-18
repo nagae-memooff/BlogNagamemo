@@ -23,5 +23,5 @@ gitlogfile.txt
 myreplace
 app/assets/images/portraits
 db/schema.rb
-public/download_files/*
+public/download_files
 public/files/*
