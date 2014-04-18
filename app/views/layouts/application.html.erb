@@ -50,7 +50,7 @@
         <form action="/quick_new_post" method="post">
           <%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
           <textarea id="quickbox" name="content" placeholder="来写个随笔吧", onkeypress="ctrlEnter(event, 'quick_post');"></textarea>
-          <span>快速写随笔</span>
+          <span>快速写随笔</span> 或 <%= link_to '==写新博客==', new_post_path %>
           <input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
           <input type="submit" value="发送" class="btn btn-primary pull-right" id="quick_post" />
         </form>
