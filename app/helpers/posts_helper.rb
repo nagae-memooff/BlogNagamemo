@@ -12,9 +12,11 @@ module PostsHelper
 
   def add_viewed_times post
     last_view = if signed_in?
-                  post.viewer_logs.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_POST).try(:last).try(:created_at)
+                  post.viewer_logs.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_POST)
+                                  .try(:last).try(:created_at)
                 else
-                  post.viewer_logs.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+                  post.viewer_logs.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_POST)
+                                  .try(:last).try(:created_at)
                 end
 
     if last_view.nil? || Time.now - last_view >= 3600
