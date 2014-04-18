@@ -1,11 +1,12 @@
 #encoding=utf-8
 class OfflineDownloadRecordsController < ApplicationController
   before_action :set_offline_download_record, only: [:show, :edit, :update, :destroy, :log, :status, :download]
+  before_action :set_user, only: "index"
 
   # GET /offline_download_records
   # GET /offline_download_records.json
   def index
-    @offline_download_records = OfflineDownloadRecord.includes(:user).all
+    @offline_download_records = @user.offline_download_records.includes(:user).paginate(page: params[:page])
   end
 
   # GET /offline_download_records/1
@@ -96,5 +97,13 @@ class OfflineDownloadRecordsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def offline_download_record_params
     params.require(:offline_download_record).permit(:url, :file_name, :retry_times, :user_id, :description)
+  end
+
+  def set_user
+    @user = if params[:id].blank?
+              current_user
+            else
+              User.find params[:id]
+            end
   end
 end

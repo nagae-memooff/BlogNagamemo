@@ -1,4 +1,4 @@
-<h1>Listing offline_download_records</h1>
+<h1>浏览下载列表</h1>
 
 <table class="table table-bordered">
   <thead>
@@ -32,6 +32,8 @@
   </tbody>
 </table>
 
-<br>
+<hr />
+<%= will_paginate(@offline_download_records, previous_label: '上一页',next_label: '下一页',:separator=>" | ") %>
+<br />
 
 <%= button_to '新建下载', new_offline_download_record_path, class: "btn btn-primary", method: 'get' %>
