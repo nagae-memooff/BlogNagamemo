@@ -21,7 +21,7 @@ class OfflineDownloadRecord < ActiveRecord::Base
              when 1
                status_command = "tail -n 2 #{self.local_log_path}"
                status = `#{status_command}`
-               if (/.* 已保存 \[[0-9]+\]/ =~ status)
+               if (/.* saved \[[0-9\/]+\]/ =~ status)
                  self.update_attribute(:status_code, 2)
                  update_download_info
                  "已完成"
@@ -63,7 +63,7 @@ class OfflineDownloadRecord < ActiveRecord::Base
     file_size = readable(File.size(self.local_file_path))
 
     info = `tail -n 2 #{self.local_log_path}`
-    /([0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}) \(([0-9.]+ [KM]B\/s)\) .*已保存 \[[0-9]+\]/ =~ info
+    /([0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}) \(([0-9.]+ [KM]B\/s)\) .*saved \[[0-9\/]+\]/ =~ info
     attributes = { finished_at: $1, aver_speed: $2, file_size: file_size }
 
     self.update_attributes attributes
