@@ -72,7 +72,7 @@ class OfflineDownloadRecord < ActiveRecord::Base
   def download_file_to_server
     # TODO:错误处理
     Dir.mkdir(download_dir) unless File.directory? download_dir
-    download_command = "wget -c -o #{self.local_log_path} -O #{self.local_file_path} -b -N -t #{retry_times} #{url}"
+    download_command = "wget -c -o #{self.local_log_path} -O #{self.local_file_path} -b -N -t #{retry_times} '#{url}'"
     `#{download_command}` and self.status_code = 1
   end
 end
