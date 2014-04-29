@@ -152,9 +152,11 @@ class PostsController < ApplicationController
   # FIXME:没有考虑到同一用户多次浏览主页时重复计数的问题
   def add_view_count
     last_view = if signed_in?
-                  ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+                  ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX)
+                            .try(:last).try(:created_at)
                 else
-                  ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+                  ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX)
+                            .try(:last).try(:created_at)
                 end
 
     if last_view.nil? || Time.now - last_view >= 3600
