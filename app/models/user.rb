@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
                         "/assets/portraits/default_portrait.png"
                       end
                     elsif Rails.env == 'production'
-                      if File.exist? "#{Rails.root}/../shared/portraits/#{self.id}.png"
+                      if File.exist? "#{Rails.root}/../../shared/portraits/#{self.id}.png"
                         "/portraits/#{self.id}.png"
                       else
                         "default_portrait.png"
