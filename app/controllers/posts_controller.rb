@@ -170,7 +170,7 @@ class PostsController < ApplicationController
         viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_IP
       end
       if viewer_log.save
-        view_count = ViewCount.first
+        view_count = ViewCount.first || ViewCount.create
         view_count.count += 1
         view_count.today_count += 1
         view_count.save
