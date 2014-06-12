@@ -85,7 +85,7 @@ class UsersController < ApplicationController
       save_resize_picture(upload_pic_io, file_path)
       result[:status] = 'OK'
       result[:msg] = "成功上传头像"
-    rescue Exception
+    rescue Exception => e
       result[:status] = 'ERR'
       result[:msg] = e
     rescue ActiveRecord::RecordNotFound
