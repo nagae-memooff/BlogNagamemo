@@ -136,7 +136,7 @@ class PostsController < ApplicationController
 
     uploaded_files.each do |uploaded_file|
       file_name = "#{Date.today.to_s}_#{uploaded_file.original_filename}"
-      file_path = "/home/nagae-memooff/rails/blog_nagamemo/shared/files/#{file_name}"
+      file_path = "#{Rails.root}/../shared/files/#{file_name}"
 
       begin
         FileRecord.create(file_name: file_name, user_id: current_user.id, post_id: @post.id)
