@@ -7,12 +7,17 @@ gem 'mini_magick'
 gem 'mysql2'
 
 group :test do
-  gem 'selenium-webdriver', '2.35.1'
+#   gem 'selenium-webdriver', '2.35.1'
   gem 'capybara', '2.1.0'
+  gem 'faker', "~> 1.1.2"
+  gem 'database_cleaner', "~> 1.0.1"
+  gem 'launchy', "~> 2.3.0"
+  gem "selenium-webdriver", "~> 2.33.0"
 end
 
 group :development, :test do
-  gem 'rspec-rails', '2.13.1'
+  gem 'rspec-rails', '2.14.0'
+  gem 'factory_girl_rails', "~> 4.2.1"
 end
 
 # Use SCSS for stylesheets

@@ -63,3 +63,9 @@ function ctrlEnter(event, id) {
 function toggleLog() {
   $("#log").slideToggle();
 }
+function searchByPressEnter(event) {
+  if( event.keyCode==13) {
+    this.click();
+    return false;
+  }
+}

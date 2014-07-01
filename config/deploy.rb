@@ -40,7 +40,8 @@ set :use_sudo, false             # 是否使用echo 'tsoftime' |sudo -S
 default_run_options[:pty] = true  # 开启pty
 
 set :repository,  "git@github.com:nagae-memooff/BlogNagamemo.git"             # git仓库 
-set :deploy_to, "/home/nagae-memooff/rails/blog_nagamemo"             # 服务器80端口应用路径
+# set :deploy_to, "/home/nagae-memooff/rails/blog_nagamemo"             # 服务器80端口应用路径
+set :deploy_to, "/var/www/nagae-memooff.me"
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
@@ -58,31 +59,31 @@ set :deploy_to, "/home/nagae-memooff/rails/blog_nagamemo"             # 服务�
 
 
 # 自定义nginx相关命令
-namespace :nginx do
-  # 重启Passenger
-  desc "cause Passenger to initiate a restart"
-  task :restart do 
-    run "touch #{current_path}/tmp/restart.txt"
-  end
-
-  # 启动nginx
-  desc "start nginx" 
-  task :start do 
-    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx"
-  end 
-
-  # 重启nginx
-  desc "restart nginx"
-  task :restart do 
-    run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
-  end 
-
-  # 杀死nginx
-  desc "shut down nginx"
-  task :stop do 
-    run "echo '1namiken' |sudo -S pkill -9 nginx"
-  end 
-end
+# namespace :nginx do
+#   # 重启Passenger
+#   desc "cause Passenger to initiate a restart"
+#   task :restart do 
+#     run "touch #{current_path}/tmp/restart.txt"
+#   end
+# 
+#   # 启动nginx
+#   desc "start nginx" 
+#   task :start do 
+#     run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx"
+#   end 
+# 
+#   # 重启nginx
+#   desc "restart nginx"
+#   task :restart do 
+#     run "echo '1namiken' |sudo -S /home/nagae-memooff/opt/nginx/sbin/nginx -s reload"
+#   end 
+# 
+#   # 杀死nginx
+#   desc "shut down nginx"
+#   task :stop do 
+#     run "echo '1namiken' |sudo -S pkill -9 nginx"
+#   end 
+# end
 
 # 自定义数据库相关命令
 namespace :db do
@@ -100,12 +101,12 @@ namespace :db do
 
   desc "reload the database with seed data"
   task :seed do 
-    run "cd #{current_path}; rake db:seed RAILS_ENV=production"
+    run "cd #{current_path} && bundle exec rake db:seed RAILS_ENV=production"
   end
 end
 
 # 在更新代码之后，执行bundle install
-after "deploy:update_code", :create_portrait_symlink, :create_file_symlink, :complie_asset, :restart_nginx
+after "deploy:update_code", :create_portrait_symlink, :create_file_symlink,:create_download_file_symlink, :complie_asset, :restart_nginx
 
 after "deploy:create_symlink", :bundle_install, :start_crontab
 # after "deploy:create_symlink", :start_crontab
@@ -117,17 +118,17 @@ end
 
 desc "create portrait symbol link"
 task :create_portrait_symlink do
-  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/portraits public/portraits"
+  run "cd #{release_path} && ln -s #{deploy_to}/shared/portraits public/portraits"
 end
 
 desc "create file symbol link"
 task :create_file_symlink do
-  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/files public/files"
+  run "cd #{release_path} && ln -s #{deploy_to}/shared/files public/files"
 end
 
 desc "create downloaded file symbol link"
 task :create_download_file_symlink do
-  run "cd #{release_path} && ln -s /home/nagae-memooff/rails/blog_nagamemo/shared/downloaded_files public/download_files"
+  run "cd #{release_path} && ln -s #{deploy_to}/shared/downloaded_files public/download_files"
 end
 
 desc "install the necessary preprequisites"
@@ -137,7 +138,7 @@ end
 
 desc "restart nginx"
 task :restart_nginx do 
-  sudo "/opt/nginx/sbin/nginx -s reload"
+  sudo "/usr/sbin/nginx -s reload"
 end 
 
 desc "update crontab"
