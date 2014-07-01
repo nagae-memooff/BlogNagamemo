@@ -41,14 +41,9 @@ function clearRepoArea(){
 //  }
 //}
 
-function searchByKeywords(){
-  var keywords = document.getElementById('search_keywords').value;
-  top.location = '/search?search_keywords=' + keywords;
-}
-
 function searchByPressEnter(event) {
   if( event.keyCode==13) {
-    document.getElementById("search_button").click();
+    document.getElementById("search_button").submit();
   }
 }
 
