@@ -43,7 +43,13 @@ function clearRepoArea(){
 
 function searchByKeywords(){
   var keywords = document.getElementById('search_keywords').value;
-  window.location.href='/search?search_keywords=' + keywords;
+  top.location = '/search?search_keywords=' + keywords;
+}
+
+function searchByPressEnter(event) {
+  if( event.keyCode==13) {
+    document.getElementById("search_button").click();
+  }
 }
 
 function quickNewPostDivSlideUp() {
@@ -62,10 +68,4 @@ function ctrlEnter(event, id) {
 
 function toggleLog() {
   $("#log").slideToggle();
-}
-function searchByPressEnter(event) {
-  if( event.keyCode==13) {
-    this.click();
-    return false;
-  }
 }

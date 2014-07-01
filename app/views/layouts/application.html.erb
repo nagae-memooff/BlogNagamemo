@@ -34,14 +34,14 @@
 							<li><%= link_to "注册用户", sign_up_path %></li>
 						<% end %>
 					</ul>
-          <form class="form-search">
+          <div class="form-search">
             <div class="input-append pull-right" id="searchbox">
               <%= viewer_msg %>
               <input type="text" id="search_keywords" class="span2 search-query" name="search_keywords"
-              placeholder="输入搜索关键词" onkeypress="searchByPressEnter(event);" ></input>
-              <input type="button" value="搜索" class="btn" onclick="searchByKeywords();" />
+                      placeholder="输入搜索关键词" onkeypress="searchByPressEnter(event);" ></input>
+              <input type="button" value="搜索" class="btn" id="search_button" onclick="searchByKeywords();" />
             </div>
-          </form>
+          </div>
 				</div>
 			</div>
 		</nav>	
