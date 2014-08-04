@@ -96,24 +96,28 @@ class PostsController < ApplicationController
 
 
     @keywords.each do |keyword|
-      Post.includes(:user).where("title like ? or content like ?", "%#{keyword}%", "%#{keyword}%").each do |post|
+      posts = Post.includes(:user).where("title like %?% or content like %?%", keyword, keyword)
+      posts.each do |post|
         posts_list[post] += 1
       end
     end
 
     posts_array = (posts_list.sort_by {|key, value| value }).reverse
 
-    posts_array.each { |post, count| all_posts << post ; logger.info post; logger.info count }
+    posts_array.each do |post, count| 
+      all_posts << post ; logger.info post; logger.info count
+    end
     logger.info posts_list
 
     #     @posts = paginate_posts all_posts, page
     @posts = all_posts
 
-    @msg = if @posts.count == 0
-             "没有符合条件的日志！"
-           else
-             "找到#{@posts.count}条记录"
-           end
+    @msg = 
+      if @posts.count == 0
+        "没有符合条件的日志！"
+      else
+        "找到#{@posts.count}条记录"
+      end
 
     render 'index'
   end
@@ -151,13 +155,12 @@ class PostsController < ApplicationController
 
   # FIXME:没有考虑到同一用户多次浏览主页时重复计数的问题
   def add_view_count
-    last_view = if signed_in?
-                  ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX)
-                            .try(:last).try(:created_at)
-                else
-                  ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX)
-                            .try(:last).try(:created_at)
-                end
+    last_view = 
+      if signed_in?
+        ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+      else
+        ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+      end
 
     if last_view.nil? || Time.now - last_view >= 3600
       viewer_log = ViewerLog.new

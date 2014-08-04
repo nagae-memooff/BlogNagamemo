@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   has_many :viewer_logs, dependent: :destroy
   has_many :offline_download_records
 
-	def User.new_remember_token
+	def self.new_remember_token
 		SecureRandom.urlsafe_base64
 	end
 
-	def User.encrypt(token)
+	def self.encrypt(token)
 		Digest::SHA1.hexdigest(token.to_s)
 	end
 
@@ -27,19 +27,20 @@ class User < ActiveRecord::Base
   end
 
   def portrait_url(size='s')
-    portrait_path = if Rails.env == 'development'
-                      if File.exist? "#{Rails.root}/app/assets/images/portraits/#{self.id}.png"
-                        "/assets/portraits/#{self.id}.png"
-                      else
-                        "/assets/portraits/default_portrait.png"
-                      end
-                    elsif Rails.env == 'production'
-                      if File.exist? "#{Rails.root}/../../shared/portraits/#{self.id}.png"
-                        "/portraits/#{self.id}.png"
-                      else
-                        "default_portrait.png"
-                      end
-                    end
+    portrait_path = 
+      if Rails.env == 'development'
+        if File.exist? "#{Rails.root}/app/assets/images/portraits/#{self.id}.png"
+          "/assets/portraits/#{self.id}.png"
+        else
+          "/assets/portraits/default_portrait.png"
+        end
+      elsif Rails.env == 'production'
+        if File.exist? "#{Rails.root}/../../shared/portraits/#{self.id}.png"
+          "/portraits/#{self.id}.png"
+        else
+          "default_portrait.png"
+        end
+      end
     portrait_path
   end
 

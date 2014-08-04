@@ -100,10 +100,11 @@ class OfflineDownloadRecordsController < ApplicationController
   end
 
   def set_user
-    @user = if params[:id].blank?
-              current_user
-            else
-              User.find params[:id]
-            end
+    @user = 
+      if params[:id].blank?
+        current_user
+      else
+        User.find params[:id]
+      end
   end
 end

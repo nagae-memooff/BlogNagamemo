@@ -77,11 +77,12 @@ class UsersController < ApplicationController
 
     begin
       user_id = current_user.id
-      file_path = if Rails.env == 'development'
-                    "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
-                  else
-                    "#{Rails.root}/../../shared/portraits/#{user_id}.png"
-                  end
+      file_path = 
+        if Rails.env == 'development'
+          "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
+        else
+          "#{Rails.root}/../../shared/portraits/#{user_id}.png"
+        end
       save_resize_picture(upload_pic_io, file_path)
       result[:status] = 'OK'
       result[:msg] = "成功上传头像"
@@ -115,13 +116,14 @@ class UsersController < ApplicationController
     img_orig = MiniMagick::Image.read(uploaded_io)
     w, h = img_orig[:width], img_orig[:height]
 
-    shaved_size = if w > h
-                    shaved_off = (w-h).round / 2
-                    "#{shaved_off}x0"
-                  else 
-                    shaved_off = (h-w).round / 2
-                    "0x#{shaved_off}"
-                  end
+    shaved_size = 
+      if w > h
+        shaved_off = (w-h).round / 2
+        "#{shaved_off}x0"
+      else 
+        shaved_off = (h-w).round / 2
+        "0x#{shaved_off}"
+      end
 
     img_orig.shave shaved_size
     img_orig.resize 160

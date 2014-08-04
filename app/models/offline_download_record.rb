@@ -15,24 +15,25 @@ class OfflineDownloadRecord < ActiveRecord::Base
   end
 
   def status
-    status = case status_code
-             when 2
-               "已完成"
-             when 1
-               status_command = "tail -n 2 #{self.local_log_path}"
-               status = `#{status_command}`
-               if (/.* saved \[[0-9\/]+\]/ =~ status)
-                 self.update_attribute(:status_code, 2)
-                 update_download_info
-                 "已完成"
-               else
-                 # TODO:返回值改为指示进度
-                 "下载中"
-               end
-             else
-               "出错"
-             end
-      status
+    status = 
+      case status_code
+      when 2
+        "已完成"
+      when 1
+        status_command = "tail -n 2 #{self.local_log_path}"
+        status = `#{status_command}`
+        if (/.* saved \[[0-9\/]+\]/ =~ status)
+          self.update_attribute(:status_code, 2)
+          update_download_info
+          "已完成"
+        else
+          # TODO:返回值改为指示进度
+          "下载中"
+        end
+      else
+        "出错"
+      end
+    status
   end
 
   def redownload
