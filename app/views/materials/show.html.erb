@@ -1,44 +1,57 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @material.name %>
-</p>
+<table class="table table-borderd">
+  <tr>
+    <th width="20%">食材名</th>
+    <td>
+      <%= @material.name %>
+    </td>
+  </tr>
 
-<p>
-  <strong>Type:</strong>
-  <%= @material.m_type %>
-</p>
+  <tr>
+    <th>类型</th>
+    <td>
+      <%= @material.m_type %>
+    </td>
+  </tr>
 
-<p>
-  <strong>Buy unit:</strong>
-  <%= @material.buy_unit %>
-</p>
 
-<p>
-  <strong>Buy price:</strong>
-  <%= @material.buy_price %>
-</p>
+  <tr>
+    <th>购买价格</th>
+    <td>
+      <%= @material.buy_price %>元/
+      <%= @material.buy_unit %>
+    </td>
+  </tr>
 
-<p>
-  <strong>Cook unit:</strong>
-  <%= @material.cook_unit %>
-</p>
 
-<p>
-  <strong>Cook count:</strong>
-  <%= @material.cook_count %>
-</p>
+  <tr>
+    <th>2顿消耗</th>
+    <td>
+      <%= @material.cook_count %>
+      <%= @material.cook_unit %>
+    </td>
+  </tr>
 
-<p>
-  <strong>Cook price:</strong>
-  <%= @material.cook_price %>
-</p>
+  <tr>
+    <th>2顿花费</th>
+    <td>
+      <%= @material.cook_price %>元
+    </td>
+  </tr>
 
-<p>
-  <strong>Now:</strong>
-  <%= @material.now %>
-</p>
+  <tr>
+    <th>剩余</th>
+    <td>
+      <%= @material.now %>
+      <%= @material.cook_unit %>
+    </td>
+  </tr>
+</table>
 
 <%= link_to '编辑', edit_material_path(@material) %> |
-<%= link_to "返回", materials_path %>
+<% if notice.blank? %>
+  <%= link_to_function "返回", "history.go(-1)" %>
+<% else %>
+  <%= link_to "返回", materials_path %>
+<% end %>

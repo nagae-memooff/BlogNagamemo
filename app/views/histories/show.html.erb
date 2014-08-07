@@ -1,16 +1,42 @@
 <p id="notice"><%= notice %></p>
 
 <table class="table table-borderd">
-  <% @history.materials.each do |material| %>
     <tr>
-      <th>食材</th>
-      <td><%= material.name %> </td>
-    </td>
-  <% end %>
+    <th>食材名</th>
+    <th>类型</th>
+    <th>购买价格</th>
+    <th>2顿消耗</th>
+    <th>2顿花费</th>
+    <th>剩余</th>
+    </tr>
+  <% @history.materials.each do |material| %>
   <tr>
+    <td>
+      <%= link_to material.name, material %>
+    </td>
+    <td>
+      <%= material.m_type %>
+    </td>
+    <td>
+      <%= material.buy_price %>
+      <%= material.buy_unit %>
+    </td>
+    <td>
+      <%= material.cook_count %>
+      <%= material.cook_unit %>
+    </td>
+    <td>
+      <%= material.cook_price %>
+    </td>
+    <td>
+      <%= material.now %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+  <div>
     <th>总价</th>
     <td><%= @history.total_price %></td>
-  </tr>
-</table>
+  </div>
 
 <%= link_to '返回列表', histories_path %>

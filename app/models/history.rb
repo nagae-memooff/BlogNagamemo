@@ -16,4 +16,6 @@ class History < ActiveRecord::Base
 
     [ history, shokuzaitachi ]
   end
+
+  default_scope { order('created_at desc') }
 end

@@ -1,11 +1,13 @@
 #encoding=utf-8
 class HistoriesController < ApplicationController
   before_action :set_history, only: [:show, :edit, :update, :destroy]
+  after_action :discount_materials, only: [:create]
+  before_action :recount_materials, only: [:destroy]
 
   # GET /histories
   # GET /histories.json
   def index
-    @histories = History.paginate(page: params[:page])
+    @histories = History.paginate(page: params[:page], per_page: 7)
   end
 
   # GET /histories/1
@@ -35,12 +37,10 @@ class HistoriesController < ApplicationController
   # POST /histories.json
   def create
     @history = History.new(history_params)
-    ids = set_materials
+    @ids = set_materials
 
     respond_to do |format|
       if @history.save
-        discount_materials ids
-        
         format.html { redirect_to @history, notice: 'History was successfully created.' }
         format.json { render action: 'show', status: :created, location: @history }
       else
@@ -67,11 +67,6 @@ class HistoriesController < ApplicationController
   # DELETE /histories/1
   # DELETE /histories/1.json
   def destroy
-    @history.materials.each do |material|
-      material.now += material.cook_count
-      material.save!
-    end
-
     @history.destroy
     respond_to do |format|
       format.html { redirect_to histories_url }
@@ -99,10 +94,17 @@ class HistoriesController < ApplicationController
       ids
     end
 
-    def discount_materials ids
-      ids.each do |id|
+    def discount_materials
+      @ids.each do |id|
         material = Material.find id
         material.now -= material.cook_count
+        material.save!
+      end
+    end
+
+    def recount_materials
+      @history.materials.each do |material|
+        material.now += material.cook_count
         material.save!
       end
     end
