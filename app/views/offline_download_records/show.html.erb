@@ -31,7 +31,7 @@
 </p>
 
 <% if @offline_download_record.status_code == 2 %>
-  <%= button_to "下载文件", "#{offline_download_record_path @offline_download_record}/download", class: "btn btn-primary", method: 'get' %>
+  <%= button_to "下载文件", @offline_download_record.nginx_download_path, class: "btn btn-primary", method: 'get' %>
 <% else %>
   <span>还没下载完成，少安毋躁</span>
 <% end %>

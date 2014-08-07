@@ -78,14 +78,16 @@ class OfflineDownloadRecordsController < ApplicationController
   end
 
   def download
-    begin
-      send_file @offline_download_record.local_file_path, disposition: "attachment"
-    rescue ActionController::MissingFile
-      respond_to do |f|
-        f.html { render text: "服务器上找不到此文件，可能它已被删除。", status: 404 }
-        f.json { render json: {code: 404, msg: "服务器上找不到此文件，可能它已被删除"}}
-      end
-    end
+    redirect_to @offline_download_record.nginx_download_path
+
+    # begin
+    #   send_file @offline_download_record.local_file_path, disposition: "attachment"
+    # rescue ActionController::MissingFile
+    #   respond_to do |f|
+    #     f.html { render text: "服务器上找不到此文件，可能它已被删除。", status: 404 }
+    #     f.json { render json: {code: 404, msg: "服务器上找不到此文件，可能它已被删除"}}
+    #   end
+    # end
   end
 
   private
