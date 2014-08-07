@@ -25,9 +25,12 @@
           <li>
           <%= link_to "给个菜单", histories_path %>
           </li>
+          <li>
+          <%= link_to "食材管理", materials_path %>
+          </li>
         </ul>
         <ul class="nav pull-right">
-          <li><%= link_to "关于我们",  about_path  %></li>
+          <li><%= link_to "关于",  about_path  %></li>
           <% if signed_in? %>
             <li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
             <li><%= link_to current_user.name,  '/show_me'  %></li>
