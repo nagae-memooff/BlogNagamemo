@@ -5,32 +5,54 @@
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-  <div class="field">
-    <%= f.label :email , :email地址 %><br>
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :name , :昵称 %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :password ,:新密码 %><br>
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation ,:确认新密码 %><br>
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="field">
-    <%= f.label :mood, :个人简介 %><br>
-    <%= f.text_field :mood %>
-  </div>
+  <table>
+    <tr>
+      <td width="20%">
+        <%= f.label :email , :email地址 %>
+      </td>
+      <td>
+        <%= f.text_field :email %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :name , :昵称 %>
+      </td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :password ,:新密码 %>
+      </td>
+      <td>
+        <%= f.password_field :password %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :password_confirmation ,:确认新密码 %>
+      </td>
+      <td>
+        <%= f.password_field :password_confirmation %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :mood, :个人简介 %>
+      </td>
+      <td>
+        <%= f.text_field :mood %>
+      </td>
+    </tr>
+  </table>
   <div class="actions">
     <%= f.submit "确认修改" , class: "btn btn-large btn-primary" %>
   </div>

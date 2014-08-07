@@ -1,27 +1,37 @@
 <p id="notice"><%= notice %></p>
-  <%= image_tag @user.portrait_url, class: "portrait_l" %>
-<p>
-  <strong>用户名:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>个人简介:</strong>
-  <%= @user.mood %>
-</p>
-<p>
-	<strong>主题数</strong>
-	<%= current_user.posts.count %>
-</p>
-<p>
-	<strong>回复数</strong>
-	<%= current_user.comments.count %>
-</p>
+<%= image_tag @user.portrait_url, class: "portrait_l" %>
+<table>
+  <tr>
+    <td>用户名:</td>
+    <td>
+      <%= @user.name %>
+    </td>
+  </tr>
+  <tr>
+    <td>Email:</td>
+    <td>
+      <%= @user.email %>
+    </td>
+  </tr>
+  <tr>
+    <td>主题数</td>
+    <td>
+      <%= @user.posts.count %>
+    </td>
+  </tr>
+  <tr>
+    <td>回复数</td>
+    <td>
+      <%= @user.comments.count %>
+    </td>
+  </tr>
+  <tr>
+    <td>个人简介:</td>
+    <td>
+      <%= @user.mood %>
+    </td>
+  </tr>
+</table>
 
 <%= link_to '编辑我的资料', '/edit_me' %> |
 <%= link_to '回到主页', root_path %>
