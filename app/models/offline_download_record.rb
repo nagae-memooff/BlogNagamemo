@@ -41,12 +41,16 @@ class OfflineDownloadRecord < ActiveRecord::Base
   end
 
   def local_file_path
-    local_file_path = "#{download_dir}/#{self.file_name}"
+    local_file_path = "#{download_dir}/#{file_name}"
     local_file_path
   end
 
+  def nginx_download_path
+    "/download_files/user_#{user_id}/#{file_name}"
+  end
+
   def local_log_path
-    local_log_path = "#{download_dir}/#{self.file_name}_log"
+    local_log_path = "#{download_dir}/#{file_name}_log"
     local_log_path
   end
 
@@ -57,7 +61,7 @@ class OfflineDownloadRecord < ActiveRecord::Base
 
   private
   def download_dir
-     "#{Rails.root}/public/download_files/user_#{self.user_id}"
+     "#{Rails.root}/public/download_files/user_#{user_id}"
   end
 
   def update_download_info
