@@ -56,4 +56,8 @@
     <input type="button" onclick="clearRepoArea()" value="清空输入框" class="btn" />
   <% end %>
 <% end %>
-<%= link_to_function "返回", "history.go(-1)" %>
+<% if notice.blank? %>
+  <%= link_to_function "返回", "history.go(-1)" %>
+<% else %>
+  <%= link_to "返回", posts_path %>
+<% end %>
