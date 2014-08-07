@@ -17,8 +17,7 @@
   <tbody>
     <% @offline_download_records.each do |offline_download_record| %>
       <tr>
-        <td><%= link_to offline_download_record.file_name, 
-          "#{offline_download_record_path offline_download_record}/download" %></td>
+        <td><%= link_to offline_download_record.file_name, offline_download_record.nginx_download_path %></td>
         <td><%= link_to offline_download_record.user.name, user_path(offline_download_record.user) %></td>
         <td><%= offline_download_record.status %></td>
         <td><%= offline_download_record.file_size %></td>
