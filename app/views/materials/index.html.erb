@@ -1,0 +1,38 @@
+<h1>食材清单</h1>
+<table class="table table-borderd">
+  <thead>
+    <tr>
+      <th>食材</th>
+      <th>种类</th>
+      <th>购买单价</th>
+      <th>2顿单价</th>
+      <th>2顿消耗</th>
+      <th>剩余</th>
+      <th>可做</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @materials.each do |material| %>
+      <tr>
+        <td><%= material.name %></td>
+        <td><%= material.m_type %></td>
+        <td><%= material.buy_price %>元/<%= material.buy_unit %></td>
+        <td><%= material.cook_price %>元</td>
+        <td><%= material.cook_count %><%= material.cook_unit %></td>
+        <td><%= material.now %><%= material.cook_unit %></td>
+        <td><%= (material.now / material.cook_count).to_i %>次</td>
+        <td><%= link_to '详细', material %></td>
+        <td><%= link_to '修改', edit_material_path(material) %></td>
+        <td><%= link_to '删除', material, method: :delete, data: { confirm: '确认删除此食材?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '添加新食材', new_material_path %>

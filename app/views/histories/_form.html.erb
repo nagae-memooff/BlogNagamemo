@@ -1,0 +1,52 @@
+<%= form_for(@history) do |f| %>
+  <% if @history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @history.errors.count %> 个警告</h2>
+
+      <ul>
+      <% @history.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<table class="table table-borderd">
+  <thead>
+    <tr>
+      <th>食材</th>
+      <th>种类</th>
+      <th>2顿单价</th>
+      <th>2顿消耗</th>
+      <th>剩余</th>
+      <th>可做</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @materials.each do |material| %>
+      <tr>
+        <td><%= material.name %></td>
+        <td><%= material.m_type %></td>
+        <td><%= material.cook_price %>元</td>
+        <td><%= material.cook_count %><%= material.cook_unit %></td>
+        <td><%= material.now %><%= material.cook_unit %></td>
+        <td><%= (material.now / material.cook_count).to_i %>次</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+  <div class="field">
+    <%= f.label :total_price, "总共花费" %><br>
+    <%= f.text_field :total_price , readonly: true%> 元
+  </div>
+  <div class="field">
+    <%= f.hidden_field :material_ids, readonly: true, value: (@materials.map {|m| m.id }).to_s[1..-2]%>
+  </div>
+    <div class="actions">
+      <%= f.submit "就这个", class: "btn btn-primary", data: { confirm: '就这个了？' }, disabled: @history.errors.any? %>
+    </div>
+<% end %>
+<%= button_to "换一组", new_history_path, class: "btn", method: "get", type: "button",  disabled: @history.errors.any? %>

@@ -1,0 +1,57 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-borderd">
+  <tr>
+    <th width="20%">食材名</th>
+    <td>
+      <%= @material.name %>
+    </td>
+  </tr>
+
+  <tr>
+    <th>类型</th>
+    <td>
+      <%= @material.m_type %>
+    </td>
+  </tr>
+
+
+  <tr>
+    <th>购买价格</th>
+    <td>
+      <%= @material.buy_price %>元/
+      <%= @material.buy_unit %>
+    </td>
+  </tr>
+
+
+  <tr>
+    <th>2顿消耗</th>
+    <td>
+      <%= @material.cook_count %>
+      <%= @material.cook_unit %>
+    </td>
+  </tr>
+
+  <tr>
+    <th>2顿花费</th>
+    <td>
+      <%= @material.cook_price %>元
+    </td>
+  </tr>
+
+  <tr>
+    <th>剩余</th>
+    <td>
+      <%= @material.now %>
+      <%= @material.cook_unit %>
+    </td>
+  </tr>
+</table>
+
+<%= link_to '编辑', edit_material_path(@material) %> |
+<% if notice.blank? %>
+  <%= link_to_function "返回", "history.go(-1)" %>
+<% else %>
+  <%= link_to "返回", materials_path %>
+<% end %>

@@ -1,4 +1,16 @@
 BlogNagamemo::Application.routes.draw do
+  resources :materials do
+    member do
+      get :now
+    end
+  end
+
+  resources :histories do
+    member do
+      get :materials
+    end
+  end
+
   resources :offline_download_records do
     member do
       get :log

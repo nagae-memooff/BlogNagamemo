@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>History:</strong>
+  <%= @his_mat.history_id %>
+</p>
+
+<p>
+  <strong>Material:</strong>
+  <%= @his_mat.material_id %>
+</p>
+
+<%= link_to 'Edit', edit_his_mat_path(@his_mat) %> |
+<%= link_to 'Back', his_mats_path %>
