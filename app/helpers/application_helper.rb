@@ -42,4 +42,9 @@ module ApplicationHelper
     viewer_msg = "总共#{sum_count}次浏览，今日#{today_count}次。"
     viewer_msg
   end
+
+  def nokottenai_materials
+    materials = Material.nokottenai
+    materials
+  end
 end

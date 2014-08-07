@@ -1,0 +1,41 @@
+<%= form_for(@material) do |f| %>
+  <% if @material.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@material.errors.count, "error") %> prohibited this material from being saved:</h2>
+
+      <ul>
+      <% @material.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.text_field :name, placeholder: "食材名" %>
+  </div>
+  <div class="field">
+    <%= f.text_field :m_type , placeholder: "种类"%>
+  </div>
+  <div class="field">
+    <%= f.text_field :buy_unit , placeholder: "购买单位"%>
+  </div>
+  <div class="field">
+    <%= f.text_field :buy_price, placeholder: "购买单价"%>
+  </div>
+  <div class="field">
+    <%= f.text_field :cook_unit, placeholder: "2顿单位" %>
+  </div>
+  <div class="field">
+    <%= f.text_field :cook_count, placeholder: "2顿数量" %>
+  </div>
+  <div class="field">
+    <%= f.text_field :cook_price, placeholder: "2顿价格" %>
+  </div>
+  <div class="field">
+    <%= f.text_field :now, placeholder: "剩余" %>
+  </div>
+  <div class="actions">
+		<%= f.submit '提交', class: 'btn btn-primary', id: 'submit' %>
+  </div>
+<% end %>

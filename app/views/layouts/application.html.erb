@@ -1,70 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:wb="//open.weibo.com/wb">
-	<head>
-		<title>BlogNagamemo</title>
+  <head>
+    <title>BlogNagamemo</title>
     <meta property="wb:webmaster" content="2b2c385ef9d51864" />
-		<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
     <%= tinymce_assets %>
-		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-		<%= csrf_meta_tags %>
-	</head>
-	<body>
-		<nav class="navbar navbar-fixed-top navbar-inverse">
-			<div class="navbar-inner">
-				<div class="container">
-					<ul class="nav pull-left">
-            <li>
-            <%=  image_tag 'icon.jpg', id: 'icon' %>
-            </li>
-						<li>
-						<%= link_to "Nagae memooff的博客", root_path, id: "logo" %>
-            </li>
-            <li>
-            <%= link_to "离线下载", offline_download_records_path if signed_in? %>
-            </li>
-					</ul>
-          <ul class="nav pull-right">
-						<li><%= link_to "关于我们",  about_path  %></li>
-						<% if signed_in? %>
-							<li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
-							<li><%= link_to current_user.name,  '/show_me'  %></li>
-              <li><%= image_tag current_user.portrait_url, class: "portrait_s"  %></li>
-						<% else %>
-							<li><%= link_to "登录", sign_in_path %></li>
-							<li><%= link_to "注册用户", sign_up_path %></li>
-						<% end %>
-					</ul>
-          <form class="form-search" action="/search" method="get">
-            <div class="input-append pull-right" id="searchbox">
-              <%= viewer_msg %>
-              <input type="text" id="search_keywords" class="span2 search-query" name="search_keywords"
-                      placeholder="输入搜索关键词" ></input>
-              <input type="submit" value="搜索" class="btn" id="search_button" />
-            </div>
-          </form>
-				</div>
-			</div>
-		</nav>	
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav pull-left">
+          <li>
+          <%=  image_tag 'icon.jpg', id: 'icon' %>
+          </li>
+          <li>
+          <%= link_to "Nagae memooff的博客", root_path, id: "logo" %>
+          </li>
+          <li>
+          <%= link_to "离线下载", offline_download_records_path if signed_in? %>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li><%= link_to "关于我们",  about_path  %></li>
+          <% if signed_in? %>
+            <li><%= link_to "注销", sign_out_path, method: 'delete' %></li>
+            <li><%= link_to current_user.name,  '/show_me'  %></li>
+            <li><%= image_tag current_user.portrait_url, class: "portrait_s"  %></li>
+          <% else %>
+            <li><%= link_to "登录", sign_in_path %></li>
+            <li><%= link_to "注册用户", sign_up_path %></li>
+          <% end %>
+        </ul>
+        <form class="form-search" action="/search" method="get">
+          <div class="input-append pull-right" id="searchbox">
+            <%= viewer_msg %>
+            <input type="text" id="search_keywords" class="span2 search-query" name="search_keywords"
+            placeholder="输入搜索关键词" ></input>
+            <input type="submit" value="搜索" class="btn" id="search_button" />
+          </div>
+        </form>
+      </div>
+    </div>
+    </nav>	
     <% if signed_in? %>
       <div id="quick-new" onmouseover="quickNewPostDivSlideDown();" onmouseleave="quickNewPostDivSlideUp();">
         <form action="/quick_new_post" method="post">
           <%= tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token) %>   
-          <textarea id="quickbox" name="content" placeholder="来写个随笔吧", onkeypress="ctrlEnter(event, 'quick_post');"></textarea>
+          <textarea id="quickbox" name="content" placeholder="来写个随笔吧",
+            onkeypress="ctrlEnter(event, 'quick_post');"></textarea>
+
           <span>快速写随笔</span> 或 <%= link_to '==写新博客==', new_post_path %>
-          <input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
-          <input type="submit" value="发送" class="btn btn-primary pull-right" id="quick_post" />
-        </form>
-      </div>
-    <% end %>
-		<div id="container" class="container">
-			<%= yield %>
-		</div>
-    <hr />
-    <footer id="bottom">
-      辙道辕门的个人博客<br />
-      QQ：169192
-    </footer>
-		<%= debug(params) if Rails.env.development? %>
-    <script src="//tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
-	</body>
+        <% ms = nokottenai_materials %>
+        <input type="button" value="清空" class="btn  pull-right" onclick="clearContent()"  />
+        <input type="submit" value="发送" class="btn btn-primary pull-right" id="quick_post" />
+        <% if !ms.blank? %>
+          <span class="pull-right">请及时补充：
+          <% ms.each do |material| %>
+            <%= material.name %>
+          <% end %>
+          </span>
+        <% end %>
+      </form>
+    </div>
+  <% end %>
+  <div id="container" class="container">
+    <%= yield %>
+  </div>
+  <hr />
+  <footer id="bottom">
+  辙道辕门的个人博客<br />
+  QQ：169192
+  </footer>
+  <%= debug(params) if Rails.env.development? %>
+  <script src="//tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+</body>
 </html>

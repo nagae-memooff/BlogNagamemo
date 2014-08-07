@@ -148,5 +148,5 @@ end
 
 set :rvm_ruby_string, "ruby-2.1.1"#@#{application}"
 
-before 'deploy:setup', 'rvm:install_rvm'
-before 'deploy:setup', 'rvm:install_ruby'
+# before 'deploy:setup', 'rvm:install_rvm'
+# before 'deploy:setup', 'rvm:install_ruby'

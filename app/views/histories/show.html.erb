@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<table class="table table-borderd">
+  <% @history.materials.each do |material| %>
+    <tr>
+      <th>食材</th>
+      <td><%= material.name %> </td>
+    </td>
+  <% end %>
+  <tr>
+    <th>总价</th>
+    <td><%= @history.total_price %></td>
+  </tr>
+</table>
+
+<%= link_to '返回列表', histories_path %>

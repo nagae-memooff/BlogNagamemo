@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @material.name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @material.m_type %>
+</p>
+
+<p>
+  <strong>Buy unit:</strong>
+  <%= @material.buy_unit %>
+</p>
+
+<p>
+  <strong>Buy price:</strong>
+  <%= @material.buy_price %>
+</p>
+
+<p>
+  <strong>Cook unit:</strong>
+  <%= @material.cook_unit %>
+</p>
+
+<p>
+  <strong>Cook count:</strong>
+  <%= @material.cook_count %>
+</p>
+
+<p>
+  <strong>Cook price:</strong>
+  <%= @material.cook_price %>
+</p>
+
+<p>
+  <strong>Now:</strong>
+  <%= @material.now %>
+</p>
+
+<%= link_to '编辑', edit_material_path(@material) %> |
+<%= link_to "返回", materials_path %>
