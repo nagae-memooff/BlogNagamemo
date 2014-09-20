@@ -59,6 +59,7 @@ group :deploy do
 end
 
 gem 'pry-rails'
+gem 'pry-nav'
 gem 'whenever'
 # gem 'carrierwave'
 # Use ActiveModel has_secure_password

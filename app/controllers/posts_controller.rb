@@ -5,7 +5,8 @@ class PostsController < ApplicationController
 
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   after_action :save_file, only: [:create, :update]
-  before_action :add_view_count, only: [:index]
+  before_action :add_index_page_view_count, only: [:index]
+  before_action :add_post_view_count, only: [:show]
   cattr_reader :per_page, :comment_per_page
 
   @@per_page = 5
@@ -94,9 +95,9 @@ class PostsController < ApplicationController
     posts_list = {} and posts_list.default = 0
     all_posts = []
 
-
     @keywords.each do |keyword|
-      posts = Post.includes(:user).where("title like %?% or content like %?%", keyword, keyword)
+      k = "%#{keyword}%"
+      posts = Post.includes(:user).where("title like ? or content like ?", k, k)
       posts.each do |post|
         posts_list[post] += 1
       end
@@ -153,31 +154,52 @@ class PostsController < ApplicationController
     end
   end
 
-  # FIXME:没有考虑到同一用户多次浏览主页时重复计数的问题
-  def add_view_count
+  def add_index_page_view_count
     last_view = 
       if signed_in?
-        ViewerLog.where(user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+        ViewerLog.fetch_last_view user_id: current_user.id, view_type: ViewerLog::VIEW_TYPE_INDEX
       else
-        ViewerLog.where(user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX).try(:last).try(:created_at)
+        ViewerLog.fetch_last_view user_ip: request.remote_ip, view_type: ViewerLog::VIEW_TYPE_INDEX
       end
 
-    if last_view.nil? || Time.now - last_view >= 3600
+    if last_view.nil? || Time.now - last_view >= 120
       viewer_log = ViewerLog.new
-      viewer_log[:view_type] = ViewerLog::VIEW_TYPE_INDEX
-      viewer_log[:user_ip] = request.remote_ip
+      viewer_log.view_type = ViewerLog::VIEW_TYPE_INDEX
+      viewer_log.user_ip = request.remote_ip
+
       if signed_in?
-        viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_SIGNED_IN
-        viewer_log[:user_id] = current_user.id
+        viewer_log.login_type = ViewerLog::LOGIN_TYPE_SIGNED_IN
+        viewer_log.user_id = current_user.id
       else
-        viewer_log[:login_type] = ViewerLog::LOGIN_TYPE_IP
+        viewer_log.login_type = ViewerLog::LOGIN_TYPE_IP
       end
-      if viewer_log.save
-        view_count = ViewCount.first || ViewCount.create
-        view_count.count += 1
-        view_count.today_count += 1
-        view_count.save
+
+      ViewCount.increament
+      viewer_log.async_save
+    end
+  end
+
+  def add_post_view_count
+    last_view = if signed_in?
+                  @post.fetch_last_view user_id: current_user.id
+                else
+                  @post.fetch_last_view user_ip: request.remote_ip
+                end
+
+    if last_view.nil? || Time.now - last_view >= 120
+      viewer_log = @post.viewer_logs.build
+      viewer_log.view_type = ViewerLog::VIEW_TYPE_POST
+      viewer_log.user_ip = request.remote_ip
+      if signed_in?
+        viewer_log.login_type = ViewerLog::LOGIN_TYPE_SIGNED_IN
+        viewer_log.user_id = current_user.id
+      else
+        viewer_log.login_type = ViewerLog::LOGIN_TYPE_IP
       end
+
+
+      Post.increment_counter :viewed_times, @post.id 
+      @post.update_last_view viewer_log
     end
   end
 end

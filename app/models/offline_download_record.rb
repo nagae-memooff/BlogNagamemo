@@ -80,4 +80,12 @@ class OfflineDownloadRecord < ActiveRecord::Base
     download_command = "wget -c -o #{self.local_log_path} -O #{self.local_file_path} -b -N -t #{retry_times} '#{url}'"
     `#{download_command}` and self.status_code = 1
   end
+
+  # TODO
+  def download_file_to_server_use_aria2c
+    Dir.mkdir(download_dir) unless File.directory? download_dir
+#     download_command = "wget -c -o #{self.local_log_path} -O #{self.local_file_path} -b -N -t #{retry_times} '#{url}'"
+    download_command = "aria2c -c -d #{download_dir} -l #{local_log_path} "
+    `#{download_command}` and self.status_code = 1
+  end
 end

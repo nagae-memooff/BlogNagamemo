@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-<% add_viewed_times @post unless is_mine? @post %>
 
 <h2><%= @post.title %></h2>
 <% comments_count = @post.comments.count %>
