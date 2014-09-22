@@ -21,6 +21,6 @@ env :PATH, ENV['PATH']
 
 
 every 1.days do
-  runner "ViewCount.first.update_attribute(:today_count, 0)"
+  runner "ViewCount.reset_today"
 end
 # Learn more: http://github.com/javan/whenever

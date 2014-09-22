@@ -17,4 +17,11 @@ class ViewCount < ActiveRecord::Base
 
     view_count
   end
+
+  def self.reset_today
+    view_count = self.fetch
+    view_count.today_count = 0
+    view_count.save
+    Rails.cache.write :view_count, view_count
+  end
 end
