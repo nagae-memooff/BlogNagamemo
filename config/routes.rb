@@ -56,6 +56,7 @@ BlogNagamemo::Application.routes.draw do
 	match 'quick_new_post' ,to:'posts#quick_new', via: 'post'
   match 'search', to: 'posts#search', via: 'get'
   match 'set_portrait', to:'users#set_portrait_img', via: 'post'
+  match 'lunar_date', to: 'static_page#lunar_date', via: 'get'
 
 
 	# Example of regular route:
