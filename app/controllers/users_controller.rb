@@ -75,14 +75,15 @@ class UsersController < ApplicationController
     upload_pic_io = params[:portrait_file]
     result = {}
 
+    user_id = current_user.id
+    file_path = 
+      if Rails.env == 'development'
+        "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
+      else
+        "#{Rails.root}/../../shared/portraits/#{user_id}.png"
+      end
+
     begin
-      user_id = current_user.id
-      file_path = 
-        if Rails.env == 'development'
-          "#{Rails.root}/app/assets/images/portraits/#{user_id}.png"
-        else
-          "#{Rails.root}/../../shared/portraits/#{user_id}.png"
-        end
       save_resize_picture(upload_pic_io, file_path)
       result[:status] = 'OK'
       result[:msg] = "成功上传头像"
