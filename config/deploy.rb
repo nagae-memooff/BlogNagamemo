@@ -8,11 +8,11 @@ require 'rvm/capistrano'
 # 配置
 set :user, 'nagae-memooff'                      # ssh用户名
 set :password, '1namiken'                # ssh密码
-set :web_servers,     'nagae-memooff.me'       # web服务器
-set :app_servers,     'nagae-memooff.me'       # 应用服务器
-set :db_servers_main, 'nagae-memooff.me'   # 主数据库服务器
-set :db_servers,      'nagae-memooff.me'        # 从数据库服务器
-set :domain,          'nagae-memooff.me'            # 域名
+set :web_servers,     '133.130.56.63'       # web服务器
+set :app_servers,     '133.130.56.63'       # 应用服务器
+set :db_servers_main, '133.130.56.63'   # 主数据库服务器
+set :db_servers,      '133.130.56.63'        # 从数据库服务器
+set :domain,          '133.130.56.63'            # 域名
 set :application, "blog_nagamemo"          # 应用名称
 set :port, 22
        
@@ -36,7 +36,7 @@ set :branch, 'dev'             # 分支
 set :scm_verbose, true            # 是否建立current目录
 
 # 其他
-set :use_sudo, false             # 是否使用echo 'tsoftime' |sudo -S 
+set :use_sudo, true             # 是否使用echo 'tsoftime' |sudo -S 
 default_run_options[:pty] = true  # 开启pty
 
 set :repository,  "git@github.com:nagae-memooff/BlogNagamemo.git"             # git仓库 
@@ -146,7 +146,7 @@ task :start_crontab do
   run "cd #{current_path} && bundle exec whenever -i --update-crontab blog_nagamemo"
 end
 
-set :rvm_ruby_string, "ruby-2.1.1"#@#{application}"
+set :rvm_ruby_string, "ruby-2.1.6"#@#{application}"
 
 # before 'deploy:setup', 'rvm:install_rvm'
 # before 'deploy:setup', 'rvm:install_ruby'
