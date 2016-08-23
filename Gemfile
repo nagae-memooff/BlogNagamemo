@@ -1,10 +1,10 @@
-source 'https://ruby.taobao.org'
+source 'https://rubygems.org/'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 gem 'tinymce-rails'
 
 gem 'mini_magick'
-gem 'mysql2'
+gem 'mysql2', "> 0.3.17"
 
 group :test do
 #   gem 'selenium-webdriver', '2.35.1'
